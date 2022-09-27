@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "mans-ansible-collection-template"
+version = "0.1.0"
+description = "A GitHub template for creating Ansible Collections"
+authors = ["CDW Managed Services Apps Team <ManagedSvc-Applications@cdw.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+ansible = "^2.9.10"
+ansible-lint = "^4.1.9"
+yamllint = "^1.23.0"
+requests = "^2.23.0"
+dephell = "^0.8.3"
+poetry-core = "^1.0.0a8"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.4.3"
+
+[build-system]
+requires = ["poetry>=1.0.0a8"]
+build-backend = "poetry.masonry.api"
