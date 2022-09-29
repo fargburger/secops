@@ -1,0 +1,6 @@
+---
+osquery_apt_key_id: 1484120AC4E9F8A1A577AEEE97A80C63C9D8B80B
+public_ubuntu_keyserver: hkp://keyserver.ubuntu.com:80
+public_osquery_repo: "deb [arch=amd64] https://pkg.osquery.io/deb deb main"
+use_public_resources: yes
+...

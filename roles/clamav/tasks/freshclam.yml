@@ -1,0 +1,156 @@
+---
+- name: update freshclam database owner config 
+  lineinfile:
+    path: /etc/clamav/freshclam.conf
+    regex: DatabaseOwner\s+.+
+    line: "DatabaseOwner {{ clamav_freshclam_databaseowner }}"
+
+- name: update freshclam update log file config
+  lineinfile:
+    path: /etc/clamav/freshclam.conf
+    regex: UpdateLogFile\s+.+
+    line: "UpdateLogFile {{ clamav_freshclam_updatelogfile }}"
+
+- name: update freshclam log verbose config
+  lineinfile:
+    path: /etc/clamav/freshclam.conf
+    regex: LogVerbose\s+.+
+    line: "LogVerbose {{ clamav_freshclam_logverbose }}"
+
+- name: update freshclam log syslog config
+  lineinfile:
+    path: /etc/clamav/freshclam.conf
+    regex: LogSyslog\s+.+
+    line: "LogSyslog {{ clamav_freshclam_logsyslog }}"
+
+- name: update freshclam log facility config
+  lineinfile:
+    path: /etc/clamav/freshclam.conf
+    regex: LogFacility\s+.+
+    line: "LogFacility {{ clamav_freshclam_logfacility }}"
+
+- name: update freshclam log file max size config
+  lineinfile:
+    path: /etc/clamav/freshclam.conf
+    regex: LogFileMaxSize\s+.+
+    line: "LogFileMaxSize {{ clamav_freshclam_logfilemaxsize }}"
+
+- name: update freshclam log rotate config
+  lineinfile:
+    path: /etc/clamav/freshclam.conf
+    regex: LogRotate\s+.+
+    line: "LogRotate {{ clamav_freshclam_logrotate }}"
+
+- name: update freshclam log time config
+  lineinfile:
+    path: /etc/clamav/freshclam.conf
+    regex: LogTime\s+.+
+    line: "LogTime {{ clamav_freshclam_logtime }}"
+
+- name: update freshclam foreground
+  lineinfile:
+    path: /etc/clamav/freshclam.conf
+    regex: Foreground\s+.+
+    line: "Foreground {{ clamav_freshclam_foreground }}"
+
+- name: update freshclam debug
+  lineinfile:
+    path: /etc/clamav/freshclam.conf
+    regex: Debug\s+.+
+    line: "Debug {{ clamav_freshclam_debug }}"
+
+- name: update freshclam Max Attempts
+  lineinfile:
+    path: /etc/clamav/freshclam.conf
+    regex: MaxAttempts\s+.+
+    line: "MaxAttempts {{ clamav_freshclam_maxattempts }}"
+
+- name: update freshclam database directory
+  lineinfile:
+    path: /etc/clamav/freshclam.conf
+    regex: DatabaseDirectory\s+.+
+    line: "DatabaseDirectory {{ clamav_freshclam_databasedirectory }}"
+
+- name: update freshclam dns database info
+  lineinfile:
+    path: /etc/clamav/freshclam.conf
+    regex: DNSDatabaseInfo\s+.+
+    line: "DNSDatabaseInfo {{ clamav_freshclam_dnsdatabaseinfo }}"
+
+- name: update freshclam connect timeout
+  lineinfile:
+    path: /etc/clamav/freshclam.conf
+    regex: ConnectTimeout\s+.+
+    line: "ConnectTimeout {{ clamav_freshclam_connecttimeout }}"
+
+- name: update freshclam receive timeout
+  lineinfile:
+    path: /etc/clamav/freshclam.conf
+    regex: ReceiveTimeout\s+.+
+    line: "ReceiveTimeout {{ clamav_freshclam_receivetimeout }}"
+
+- name: update freshclam test databases
+  lineinfile:
+    path: /etc/clamav/freshclam.conf
+    regex: TestDatabases\s+.+
+    line: "TestDatabases {{ clamav_freshclam_testdatabases }}"
+
+- name: update freshclam scripted updates
+  lineinfile:
+    path: /etc/clamav/freshclam.conf
+    regex: ScriptedUpdates\s+.+
+    line: "ScriptedUpdates {{ clamav_freshclam_scriptedupdates }}"
+
+- name: update freshclam compress local database
+  lineinfile:
+    path: /etc/clamav/freshclam.conf
+    regex: CompressLocalDatabase\s+.+
+    line: "CompressLocalDatabase {{ clamav_freshclam_compresslocaldatabase }}"
+
+- name: update freshclam bytecode
+  lineinfile:
+    path: /etc/clamav/freshclam.conf
+    regex: Bytecode\s+.+
+    line: "Bytecode {{ clamav_freshclam_bytecode }}"
+
+- name: update freshclam notify clamd
+  lineinfile:
+    path: /etc/clamav/freshclam.conf
+    regex: NotifyClamd\s+.+
+    line: "NotifyClamd {{ clamav_freshclam_notifyclamd }}"
+
+#TODO figure out how to do these two plays in one step
+- name: clear out freshclam database mirror
+  lineinfile:
+    path: /etc/clamav/freshclam.conf
+    regex: DatabaseMirror\s+.+
+    state: absent
+
+- name: add freshclam database mirrors
+  lineinfile:
+    path: /etc/clamav/freshclam.conf
+    regex: DatabaseMirror\s+.+
+    line: "DatabaseMirror {{ item }}"
+  with_items: "{{ clamav_freshclam_databasemirrors }}"
+
+- name: update freshclam http proxy server
+  lineinfile:
+    path: /etc/clamav/freshclam.conf
+    regex: HTTPProxyServer\s+.+
+    line: "HTTPProxyServer {{ clamav_freshclam_httpproxyserver }}"
+
+- name: update freshclam http proxy port
+  lineinfile:
+    path: /etc/clamav/freshclam.conf
+    regex: HTTPProxyPort\s+.+
+    line: "HTTPProxyPort {{ clamav_freshclam_httpproxyport }}"
+
+- name: enable freshclam
+  systemd:
+    name: clamav-freshclam
+    state: started
+    enabled: yes
+
+
+
+...

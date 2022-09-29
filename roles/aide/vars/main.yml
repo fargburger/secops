@@ -1,0 +1,38 @@
+---
+aide_checksums: "sha512"
+aide_exclude_path_list: |
+  !/backup*
+  !/dev/disk/
+  !/etc/.etckeeper
+  !/etc/.git/
+  !/etc/aide/.aide.conf.swp
+  !/etc/aide/.aide.conf.swp
+  !/etc/aide/aide.conf.d/00_local_excludes
+  !/etc/ld.so.cache
+  !/etc/lvm/archive
+  !/etc/lvm/backup
+  !/media/*
+  !/root/.*
+  !/run
+  !/var/backups/
+  !/var/cache/
+  !/var/lib/apt/daily_lock
+  !/var/lib/apt/periodic/unattended-upgrades-stamp
+  !/var/lib/apt/periodic/upgrade-stamp
+  !/var/lib/clamav/
+  !/var/lib/dpkg/triggers/Lock
+  !/var/lib/fail2ban/fail2ban.sqlite3
+  !/var/lib/logrotate
+  !/var/lib/monit/state
+  !/var/lib/systemd/timers/stamp-apt-daily-upgrade.timer
+  !/var/lib/systemd/timers/stamp-apt-daily.timer
+  !/var/lib/vnstat/*
+  !/var/log.*
+  !/var/spool/.*
+aide_cron_daily_run: 'yes'
+aide_mailto: 'petturn@cdw.com'
+aide_truncate_details: 'yes'
+aide_filter_updates: 'yes'
+aide_filter_installations: 'yes'
+
+...

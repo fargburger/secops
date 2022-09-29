@@ -1,0 +1,179 @@
+---
+- name: install nginx from apt
+  apt:
+    name: nginx
+
+- name: install build prepreq for mod-security
+  apt:
+    name: 
+    - bison
+    - build-essential
+    - ca-certificates
+    - curl
+    - dh-autoreconf
+    - doxygen
+    - flex
+    - gawk
+    - git
+    - iputils-ping
+    - libcurl4-gnutls-dev
+    - libexpat1-dev
+    - libgeoip-dev 
+    - liblmdb-dev
+    - libpcre3-dev
+    - libpcre++-dev
+    - libssl-dev
+    - libtool
+    - libxml2
+    - libxml2-dev
+    - libyajl-dev
+    - locales
+    - liblua5.3-dev
+    - pkg-config
+    - wget
+    - zlib1g-dev
+    - zlib1g
+    - libxslt1.1
+    - libgd-dev
+  when: ansible_pkg_mgr == 'apt'
+
+- name: check out modsecurity source code
+  git:
+    repo: https://github.com/SpiderLabs/ModSecurity
+    dest: /opt/modsecurity
+  ignore_errors: yes
+
+- name: do submodule updates
+  shell: |
+    cd /opt/modsecurity
+    git submodule init
+    git submodule update
+- name: build and configure modsecurity
+  shell: |
+    cd /opt/modsecurity
+    ./build.sh      
+    ./configure
+    make
+    make install
+
+- name: check out modsecurity nginx connector
+  git: 
+    repo: https://github.com/SpiderLabs/ModSecurity-nginx.git
+    dest: /opt/modsecurity-nginx
+
+- name: get nginx version
+  shell: nginx -v 2>&1 | egrep -wo '1[.0-9]+'
+  register: nginx_version_check
+
+- name: set nginx version
+  set_fact:
+    nginx_version: "{{ nginx_version_check.stdout }}"
+
+- name: create nginx dir
+  file:
+    state: directory
+    path: /opt/nginx
+   
+- name: download nginx source for version
+  unarchive:
+    src: "http://nginx.org/download/nginx-{{ nginx_version }}.tar.gz"
+    dest: /opt/nginx
+    remote_src: yes
+
+- name: get nginx configuration arguments
+  shell: nginx -V 2>&1 | grep 'configure arguments:' | cut -d{{':'}} -f2 | perl -pne 's/--add-dynamic-module=\S+//'
+  register: nginx_configure_arguments_check
+
+- name: set nginx configure arguments
+  set_fact:
+    nginx_configure_arguments: "{{ nginx_configure_arguments_check.stdout }}"
+
+- name: configure nginx mod security
+  shell: |
+    cd /opt/nginx/nginx-{{ nginx_version }}
+    ./configure --add-dynamic-module=/opt/modsecurity-nginx {{ nginx_configure_arguments }}
+    make modules
+
+- name: create a modules directory in nginx
+  file:
+    state: directory
+    path: /etc/nginx/modules
+
+- name: copy the nginx modsecurity module to nginx modules directory
+  copy:
+    src: /opt/nginx/nginx-{{ nginx_version }}/objs/ngx_http_modsecurity_module.so
+    dest: /etc/nginx/modules/ngx_http_modsecurity_module.so
+    remote_src: yes
+
+- name: add the modsecurity module to nginx config
+  lineinfile:
+    path: /etc/nginx/nginx.conf
+    insertafter: "include /etc/nginx/modules-enabled.*"
+    firstmatch: yes
+    line: load_module /etc/nginx/modules/ngx_http_modsecurity_module.so;
+
+- name: clone the owasp core ruleset
+  git:
+    repo: https://github.com/coreruleset/coreruleset 
+    dest: /usr/local/modsecurity-crs
+
+- name: Copy the core ruleset config file
+  copy:
+    src: /usr/local/modsecurity-crs/crs-setup.conf.example 
+    dest: /usr/local/modsecurity-crs/crs-setup.conf
+    remote_src: yes
+
+- name: copy the core ruleset exclusions file
+  copy:
+    src: /usr/local/modsecurity-crs/rules/REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf.example
+    dest: /usr/local/modsecurity-crs/rules/REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf
+    remote_src: yes
+
+- name: create the ngine modsecurity directory
+  file:
+    path: /etc/nginx/modsec
+    state: directory
+
+- name: Copy unicode mapping file to nginx modsecurity directory
+  copy:
+    src: /opt/modsecurity/unicode.mapping 
+    dest: /etc/nginx/modsec/unicode.mapping
+    remote_src: yes
+
+- name: copy modsecurity config into nginx modsecurity directory
+  copy:
+    src: /opt/modsecurity/modsecurity.conf-recommended 
+    dest: /etc/nginx/modsec/modsecurity.conf
+    remote_src: yes
+
+- name: turn secruleengine on in modsecurity
+  lineinfile:
+    path: /etc/nginx/modsec/modsecurity.conf
+    regex: ^SecRuleEngine\s.+
+    line: SecRuleEngine On
+
+- name: create the modsecurity main config file
+  copy:
+    dest: /etc/nginx/modsec/main.conf
+    content: |
+      Include /etc/nginx/modsec/modsecurity.conf
+      Include /usr/local/modsecurity-crs/crs-setup.conf
+      Include /usr/local/modsecurity-crs/rules/*.conf
+
+#TODO - this may need to be a standalone script
+- name: add modsecurity to default site
+  blockinfile:
+    insertafter: "{{ modsecurity_nginx_insert_identifier }}"
+    block: |
+      modsecurity on;
+      modsecurity_rules_file /etc/nginx/modsec/main.conf;
+    marker: "# {mark} ANSIBLE MANAGED MODSECURITY BLOCK"
+    path: "{{ modsecurity_nginx_default_config }}"
+
+- name: restart nginx
+  systemd:
+    name: nginx
+    state: restarted
+
+
+...

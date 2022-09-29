@@ -1,0 +1,15 @@
+---
+- name: install apparmor via apt
+  apt:
+    name: 
+    - apparmor
+    - apparmor-profiles
+  when: ansible_pkg_mgr == 'apt'
+
+- name: enable apparmor
+  systemd:
+    name: apparmor
+    state: started
+    enabled: yes
+  
+...

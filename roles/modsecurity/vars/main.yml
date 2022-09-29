@@ -1,0 +1,4 @@
+---
+modsecurity_nginx_default_config: "/etc/nginx/sites-available/default"
+modsecurity_nginx_insert_identifier: "^server {$"
+...

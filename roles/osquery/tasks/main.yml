@@ -1,0 +1,38 @@
+---
+#TODO split into osquery_install_apt.yml
+#                osquery_install_rpm.yml
+#                osquery_install_win.yml
+
+- name: install public osquery key
+  apt_key:
+    keyserver: "{{ public_ubuntu_keyserver }}"
+    id: "{{ osquery_apt_key_id }}"
+  when: use_public_resources and ansible_pkg_mgr == 'apt'
+ 
+- name: add osquery public repository
+  apt_repository:
+    repo: "{{ public_osquery_repo }}"
+  when: use_public_resources and ansible_pkg_mgr == 'apt'
+
+- name: install osquery from public repository
+  apt:
+    name: osquery
+    update_cache: yes
+  when: use_public_resources and ansible_pkg_mgr == 'apt'
+
+  #if not use public resources, download and install (check MD5)
+  #for the role:
+  #osquery_packs
+  #osquery_schedule
+  #fim_osquery 
+  #osquery_discovery
+  #vuln_osquery #YARA
+  #osquery_logforwarding
+
+- name: start and enable osquery
+  systemd:
+    name: osqueryd
+    state: started #TODO restart with handler if configuration changed
+    enabled: yes
+  when: ansible_os_family in ['Debian', 'Suse', 'RedHat']
+

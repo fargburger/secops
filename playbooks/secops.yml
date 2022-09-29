@@ -1,0 +1,24 @@
+---
+- hosts: all
+  gather_facts: yes
+  become: yes  
+  tasks:
+ 
+   
+
+  roles:
+  - role: modsecurity
+    tags: modsecurity, never
+  - role: apparmor
+    tags: apparmor, never
+  - role: clamav
+    tags: clamav, never
+  - role: auditd
+    tags: auditd, never
+  - role: aide
+    tags: aide, never
+  - role: osquery
+    tags: osquery, never
+
+
+...
