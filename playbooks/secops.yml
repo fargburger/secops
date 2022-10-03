@@ -3,10 +3,16 @@
   gather_facts: yes
   become: yes  
   tasks:
- 
-   
+    
+
 
   roles:
+  - role: rsyslog
+    tags: rsyslog
+  - role: fail2ban
+    tags: fail2ban, never
+  - role: rkhunter
+    tags: rkhunter, never
   - role: modsecurity
     tags: modsecurity, never
   - role: apparmor

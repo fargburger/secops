@@ -1,0 +1,8 @@
+{% for rsyslog_destination in rsyslog_destinations  -%}
+{% if rsyslog_destination['dest_path'] -%}
+{{ rsyslog_destination['facility'] }}.{{ rsyslog_destination['priority'] }} {{ rsyslog_destination['dest_path'] }}
+{% endif -%}
+{% if rsyslog_destination['dest_siem'] -%}
+{{ rsyslog_destination['facility'] }}.{{ rsyslog_destination['priority'] }} {{ rsyslog_destination['dest_siem'] }}
+{% endif -%}
+{% endfor %}

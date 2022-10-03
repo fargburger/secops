@@ -1,0 +1,22 @@
+---
+rsyslog_conf_path: /etc/rsyslog.d/60-ansible-default.conf
+rsyslog_default_dest_path: -/var/log/all.log
+rsyslog_default_dest_siem: No
+rsyslog_destinations:
+- facility: '*'
+  priority: '*'
+  dest_path: "{{ rsyslog_default_dest_path }}"
+  dest_siem: "{{ rsyslog_default_dest_siem }}"
+
+rsyslog_actionfiledefaulttemplate: 'RSYSLOG_TraditionalFileFormat'
+rsyslog_repeatedmsgreduction: 'on'
+rsyslog_fileowner: 'syslog'
+rsyslog_filegroup: 'adm'
+rsyslog_filecreatemode: '0640'
+rsyslog_dircreatemode: '0755'
+rsyslog_umask: '0022'
+rsyslog_privdroptouser: 'syslog'
+rsyslog_privdroptogroup: 'syslog'
+
+
+...

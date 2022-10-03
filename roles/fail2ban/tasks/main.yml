@@ -1,0 +1,32 @@
+---
+- name: install fail2ban with apt
+  apt:
+    name: fail2ban
+  when: "ansible_pkg_mgr == 'apt'" 
+
+- name: configure fail2ban ini file
+  include_role:
+    name: dict_to_ini
+  vars:
+    ini_file_path: "{{ fail2ban_conf['path'] }}"
+    ini_section_name: "{{ ini_section.key }}"
+  loop_control:
+     loop_var: ini_section
+  loop: "{{fail2ban_conf['sections'] | dict2items }}"
+
+- name: configure fail2ban jail ini file
+  include_role:
+    name: dict_to_ini
+  vars:
+    ini_file_path: "{{ jail_conf['path'] }}"
+    ini_section_name: "{{ ini_section.key }}"
+  loop_control:
+     loop_var: ini_section
+  loop: "{{jail_conf['sections'] | dict2items }}"
+
+- name: enable fail2ban service
+  systemd:
+    name: fail2ban
+    state: started
+    enabled: Yes
+...

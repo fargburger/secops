@@ -1,0 +1,67 @@
+---
+- name: update default rsyslog config action file default template
+  lineinfile:
+    path: /etc/rsyslog.conf
+    line: '$ActionFileDefaultTemplate {{ rsyslog_actionfiledefaulttemplate }}'
+    regex: '^\$ActionFileDefaultTemplate.+'
+
+- name: update default rsyslog config repeated msg reduction
+  lineinfile:
+    path: /etc/rsyslog.conf
+    line: '$RepeatedMsgReduction {{ rsyslog_repeatedmsgreduction }}'
+    regex: '^\$RepeatedMsgReduction.+'
+
+- name: update default rsyslog config file owner
+  lineinfile:
+    path: /etc/rsyslog.conf
+    line: '$FileOwner {{ rsyslog_fileowner }}'
+    regex: '^\$FileOwner.+'
+
+- name: update default rsyslog config file group
+  lineinfile:
+    path: /etc/rsyslog.conf
+    line: '$FileGroup {{ rsyslog_filegroup }}'
+    regex: '^\$FileGroup.+'
+
+- name: update default rsyslog config file create mode
+  lineinfile:
+    path: /etc/rsyslog.conf
+    line: '$FileCreateMode {{ rsyslog_filecreatemode }}'
+    regex: '^\$FileCreateMode.+'
+
+- name: update default rsyslog config dir create mode
+  lineinfile:
+    path: /etc/rsyslog.conf
+    line: '$DirCreateMode {{ rsyslog_dircreatemode }}'
+    regex: '^\$DirCreateMode.+'
+
+- name: update default rsyslog config umask
+  lineinfile:
+    path: /etc/rsyslog.conf
+    line: '$Umask {{ rsyslog_umask }}'
+    regex: '^\$Umask.+'
+
+- name: update default rsyslog config priv drop to user
+  lineinfile:
+    path: /etc/rsyslog.conf
+    line: '$PrivDropToUser {{ rsyslog_privdroptouser }}'
+    regex: '^\$PrivDropToUser.+'
+
+- name: update default rsyslog config priv drop to group
+  lineinfile:
+    path: /etc/rsyslog.conf
+    line: '$PrivDropToGroup {{ rsyslog_privdroptogroup }}'
+    regex: '^\$PrivDropToGroup.+'
+
+- name: create rsyslog config file from template
+  template:
+    dest: "{{ rsyslog_conf_path }}"
+    src: 60-ansible-default.conf.j2
+
+- name: restart syslog 
+  systemd:
+    name: syslog
+    state: restarted
+
+
+...

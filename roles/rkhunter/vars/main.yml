@@ -1,0 +1,161 @@
+---
+rkhunter_default_cron_daily_run: "True"
+#rkhunter is updated on ubuntu via apt
+rkhunter_default_cron_db_update: "False"
+rkhunter_default_db_update_email: "False"
+rkhunter_default_report_email: "root"
+rkhunter_default_apt_autogen: "true"
+rkhunter_default_nice: "0"
+rkhunter_default_run_check_on_battery: "false"
+
+#OVERKILL CONFIG VARS, NOT IMPLEMENTED YET
+# be careful with the lists!
+# be careful with the commented out vars too
+
+rkhunter_conf_ROTATE_MIRRORS: 1
+rkhunter_conf_UPDATE_MIRRORS: 0
+rkhunter_conf_MIRRORS_MODE: 1
+rkhunter_conf_MAIL-ON-WARNING: root
+rkhunter_conf_MAIL_CMD: 'mail -s "[rkhunter] Warnings found for ${HOST_NAME}"'
+rkhunter_conf_TMPDIR: /var/lib/rkhunter/tmp
+rkhunter_conf_DBDIR: /var/lib/rkhunter/db
+rkhunter_conf_SCRIPTDIR: /usr/share/rkhunter/scripts
+rkhunter_conf_BINDIR: 
+- /bin /usr/bin /sbin /usr/sbin
+- +/usr/local/bin +/usr/local/sbin
+rkhunter_conf_LANGUAGE: en
+rkhunter_conf_UPDATE_LANG: "en"
+rkhunter_conf_LOGFILE: /var/log/rkhunter.log
+rkhunter_conf_APPEND_LOG: 0
+rkhunter_conf_COPY_LOG_ON_ERROR: 0
+rkhunter_conf_USE_SYSLOG: authpriv.warning
+rkhunter_conf_COLOR_SET2: 0
+rkhunter_conf_AUTO_X_DETECT: 1
+rkhunter_conf_WHITELISTED_IS_WHITE: 0
+rkhunter_conf_ALLOW_SSH_ROOT_USER: no
+rkhunter_conf_ALLOW_SSH_PROT_V1: 2
+rkhunter_conf_SSH_CONFIG_DIR: /etc/ssh
+rkhunter_conf_ENABLE_TESTS: ALL
+rkhunter_conf_DISABLE_TESTS: suspscan hidden_ports hidden_procs deleted_files packet_cap_apps apps
+rkhunter_conf_HASH_CMD: SHA256
+rkhunter_conf_HASH_FLD_IDX: 4
+rkhunter_conf_PKGMGR: NONE
+rkhunter_conf_PKGMGR_NO_VRFY: ""
+rkhunter_conf_USE_SUNSUM: 0
+rkhunter_conf_IGNORE_PRELINK_DEP_ERR: /bin/ps /usr/bin/top
+rkhunter_conf_USER_FILEPROP_FILES_DIRS:
+- top
+- /usr/local/sbin
+- /etc/rkhunter.conf
+- /etc/rkhunter.conf.local
+- /etc/rkhunter.d/*
+rkhunter_conf_EXCLUDE_USER_FILEPROP_FILES_DIRS: /opt/ps*
+rkhunter_conf_EXISTWHITELIST: ""
+rkhunter_conf_ATTRWHITELIST:
+- /usr/bin/date
+rkhunter_conf_WRITEWHITELIST:
+- /usr/bin/date
+rkhunter_conf_SCRIPTWHITELIST:
+- /usr/bin/egrep
+- /usr/bin/fgrep
+- /usr/bin/which
+- /usr/bin/ldd
+- /usr/bin/lwp-request
+- /usr/bin/which.debianutils
+- /usr/sbin/adduser
+- /usr/sbin/prelink
+- /usr/sbin/unhide.rb
+rkhunter_conf_IMMUTWHITELIST:
+- /sbin/ifdown
+rkhunter_conf_IMMUTABLE_SET: 0
+rkhunter_conf_SKIP_INODE_CHECK: 0
+rkhunter_conf_ALLOWHIDDENDIR:
+- /etc/.java
+- /etc/.git
+- /dev/.lxc
+rkhunter_conf_ALLOWHIDDENFILE:
+- /usr/share/man/man1/..1.gz
+- /usr/bin/.fipscheck.hmac
+- /usr/bin/.ssh.hmac
+- /usr/lib/.libfipscheck.so.1.1.0.hmac
+- /usr/lib/hmaccalc/sha1hmac.hmac
+- /usr/lib/hmaccalc/sha256hmac.hmac
+- /usr/sbin/.sshd.hmac
+- /usr/share/man/man5/.k5login.5.gz
+- /usr/share/man/man5/.k5identity.5.gz
+- /etc/.gitignore
+- /etc/.bzrignore
+- /etc/.etckeeper
+rkhunter_conf_ALLOWPROCDELFILE:
+- /sbin/cardmgr
+- /usr/lib/libgconf2-4/gconfd-2
+- /usr/sbin/mysqld:/tmp/ib*
+- /usr/lib/iceweasel/iceweasel
+- /usr/bin/file-roller
+rkhunter_conf_ALLOWPROCLISTEN:
+- /sbin/dhclient
+- /usr/bin/dhcpcd
+- /usr/sbin/tcpdump
+- /usr/sbin/snort-plain
+rkhunter_conf_ALLOWPROMISCIF: eth0
+rkhunter_conf_SCAN_MODE_DEV: THOROUGH
+rkhunter_conf_ALLOWDEVFILE:
+- /dev/shm/pulse-shm-*
+- /dev/shm/sem.ADBE_*
+rkhunter_conf_ALLOWIPCPROC:
+- /usr/bin/firefox
+- /usr/bin/vlc
+rkhunter_conf_ALLOWIPCPID: 12345 6789
+rkhunter_conf_ALLOWIPCUSER: usera userb
+rkhunter_conf_IPC_SEG_SIZE: 1048576
+rkhunter_conf_PHALANX2_DIRTEST: 0
+rkhunter_conf_INETD_CONF_PATH: /etc/inetd.conf
+rkhunter_conf_INETD_ALLOWED_SVC: echo
+rkhunter_conf_XINETD_CONF_PATH: /etc/xinetd.conf
+rkhunter_conf_XINETD_ALLOWED_SVC: /etc/xinetd.d/echo
+rkhunter_conf_STARTUP_PATHS:
+- /etc/init.d
+- /etc/rc.local
+rkhunter_conf_PASSWORD_FILE:
+- /etc/shadow
+rkhunter_conf_UID0_ACCOUNTS: toor rooty sashroot
+rkhunter_conf_PWDLESS_ACCOUNTS: abc
+rkhunter_conf_SYSLOG_CONFIG_FILE:
+- /etc/syslog.conf
+rkhunter_conf_ALLOW_SYSLOG_REMOTE_LOGGING: 0
+rkhunter_conf_APP_WHITELIST: ""
+rkhunter_conf_SUSPSCAN_DIRS: /tmp /var/tmp
+rkhunter_conf_SUSPSCAN_TEMP: /dev/shm
+rkhunter_conf_SUSPSCAN_MAXSIZE: 1024000
+rkhunter_conf_SUSPSCAN_THRESH: 200
+rkhunter_conf_SUSPSCAN_WHITELIST: []
+rkhunter_conf_PORT_WHITELIST: []
+rkhunter_conf_PORT_PATH_WHITELIST: []
+rkhunter_conf_OS_VERSION_FILE: /etc/debian_version
+rkhunter_conf_WARN_ON_OS_CHANGE: 1
+rkhunter_conf_UPDT_ON_OS_CHANGE: 0
+rkhunter_conf_RTKT_DIR_WHITELIST: []
+rkhunter_conf_RTKT_FILE_WHITELIST: []
+rkhunter_conf_SHARED_LIB_WHITELIST: 
+- /lib/snoopy.so
+rkhunter_conf_STAT_CMD: BUILTIN
+rkhunter_conf_READLINK_CMD: BUILTIN
+rkhunter_conf_EPOCH_DATE_CMD: ""
+rkhunter_conf_MODULES_DIR: ""
+rkhunter_conf_WEB_CMD: "/bin/false"
+rkhunter_conf_USE_LOCKING: 0
+rkhunter_conf_LOCKDIR: ""
+rkhunter_conf_LOCK_TIMEOUT: 300
+rkhunter_conf_SHOW_LOCK_MSGS: 1
+rkhunter_conf_SCANROOTKITMODE: THOROUGH
+rkhunter_conf_UNHIDE_TESTS: sys
+rkhunter_conf_UNHIDETCP_OPTS: ""
+rkhunter_conf_SHOW_SUMMARY_WARNINGS_NUMBER: 0
+rkhunter_conf_SHOW_SUMMARY_TIME: 3
+rkhunter_conf_EMPTY_LOGFILES: ""
+rkhunter_conf_MISSING_LOGFILES: ""
+rkhunter_conf_GLOBSTAR: 0
+rkhunter_conf_INSTALLDIR: /usr
+
+
+...

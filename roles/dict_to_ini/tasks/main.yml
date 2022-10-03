@@ -1,0 +1,9 @@
+---
+- name: "update {{ item.key }} to {{ item.value }} in section:[{{ ini_section.key }}] for {{ ini_file_path }}"
+  ini_file:
+    path: "{{ ini_file_path }}"
+    section: "{{ ini_section_name }}"
+    option: "{{ item.key }}"
+    value: "{{ item.value }}"
+  loop: "{{ ini_section.value | dict2items }}"
+...
