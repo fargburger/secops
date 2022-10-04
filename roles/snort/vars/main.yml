@@ -1,0 +1,5 @@
+---
+snort_promiscuous_mode_internet_interfaces: ['eth0']
+snort_home_net: '192.168.0.100/32'
+
+...

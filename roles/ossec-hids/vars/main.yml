@@ -1,0 +1,20 @@
+---
+ossec_user_language: "en"
+ossec_user_no_stop: "y"
+ossec_user_install_type: "local"
+ossec_user_dir: "/var/ossec"
+ossec_user_delete_dir: "y"
+ossec_user_enable_active_response: "y"
+ossec_user_enable_syscheck: "y"
+ossec_user_enable_rootcheck: "y"
+ossec_user_update: "y"
+ossec_user_update_rules: "y"
+ossec_user_binaryinstall: "x"
+ossec_user_enable_email: "y"
+ossec_user_email_address: "nobody@cdw.com"
+ossec_user_email_smtp: "localhost"
+ossec_user_enable_syslog: "y"
+ossec_user_enable_firewall_response: "y"
+ossec_user_white_list: "127.0.0.0/8"
+
+...

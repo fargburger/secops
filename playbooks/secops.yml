@@ -7,8 +7,20 @@
 
 
   roles:
+  - role: nmap
+    tags: nmap, never
+  - role: ossec-hids
+    tags: ossec-hids, never
+    vars:
+    - ossec_user_install_type: "local"
+  - role: tiger
+    tags: tiger, never
+  - role: snort
+    tags: snort, never
+  - role: openvas
+    tags: openvas, never #as in never, this is server software, not to be installed on endpoints
   - role: rsyslog
-    tags: rsyslog
+    tags: rsyslog, never
   - role: fail2ban
     tags: fail2ban, never
   - role: rkhunter

@@ -1,0 +1,45 @@
+---
+- name: install nmap via apt
+  apt:
+    name: nmap
+  when: ansible_pkg_mgr == 'apt'
+
+  #- name: get nmap vulners scripts
+  #  git:
+  #    repo: https://github.com/vulnersCom/nmap-vulners.git
+  #    dest: /opt/nmap-vulners
+
+  #- name: copy nmap vulners script 
+  #  copy:
+  #    src: "{{ nmap_vulners_script_path.src }}"
+  #    dest: "{{ nmap_vulners_script_path.dest }}"
+  #    remote_src: yes
+  #  loop_control:
+  #    loop_var: "nmap_vulners_script_path"
+  #  loop:
+  #  - src: /opt/nmap-vulners/http-vulners-regex.json
+  #    dest: /usr/share/nmap/nselib/data/http-vulners-regex.json
+  #  - src: /opt/nmap-vulners/http-vulners-paths.txt
+  #    dest: /usr/share/nmap/nselib/data/http-vulners-paths.txt
+  #  - src: /opt/nmap-vulners/vulners.nse
+  #    dest: /usr/share/nmap/scripts/vulners.nse
+  #  - src: /opt/nmap-vulners/http-vulners-regex.nse
+  #    dest: /usr/share/nmap/scripts/http-vulners-regex.nse
+
+- name: get nmap vulscan scripts
+  git:
+    repo: https://github.com/scipag/vulscan.git
+    dest: /opt/nmap-vulscan
+
+- name: create symlink to vulscan scripts for nmap
+  file:
+    state: link
+    src: /opt/nmap-vulscan
+    dest: /usr/share/nmap/scripts/vulscan
+
+
+- name: update nmap script database
+  command: nmap --script-updatedb
+
+
+...

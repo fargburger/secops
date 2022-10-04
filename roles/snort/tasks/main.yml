@@ -1,0 +1,213 @@
+---
+- name: install snort prerequisites
+  apt:
+    name:
+    - build-essential 
+    - libpcap-dev
+    - libpcre3-dev
+    - libnet1-dev
+    - zlib1g-dev
+    - luajit
+    - hwloc
+    - libdnet-dev
+    - libdumbnet-dev
+    - bison
+    - flex
+    - liblzma-dev
+    - openssl
+    - libssl-dev
+    - pkg-config
+    - libhwloc-dev
+    - cmake
+    - cpputest
+    - libsqlite3-dev
+    - uuid-dev
+    - libcmocka-dev
+    - libnetfilter-queue-dev
+    - libmnl-dev
+    - autotools-dev
+    - libluajit-5.1-dev
+    - libunwind-dev
+    - libfl-dev
+
+#TODO add a version
+- name: clone snort libdaq
+  git:
+    repo: https://github.com/snort3/libdaq.git
+    dest: /opt/snort3-libdaq
+
+- name: build and conifgure libdaq
+  shell: |
+    cd /opt/snort3-libdaq
+    bash boostrap
+    ./autogen.sh
+    ./configure
+    make
+    make install
+
+#TODO add a version
+- name: clone gperftools (optional thread caching memory allocation package_
+  git:
+    repo: https://github.com/gperftools/gperftools.git
+    dest: /opt/snort3-gperftools
+
+- name: build and configure gperftools
+  shell: |
+    cd /opt/snort3-gperftools
+    ./configure
+    make
+    make install
+
+#TODO add a version
+- name: clone snort3
+  git:
+    repo: https://github.com/snort3/snort3.git
+    dest: /opt/snort3
+
+- name: configure snort
+  shell: |
+    cd /opt/snort3
+    ./configure_cmake.sh --prefix=/usr/local --enable-tcmalloc
+    cd build
+    make
+
+- name: install snort
+  shell: |
+    cd /opt/snort3
+    make install
+    ldconfig
+
+
+- name: check snort version
+  command: /usr/local/snort/bin/snort -V
+
+- name: check snort config
+  command: /usr/local/snort/bin/snort -c /usr/local/snort/etc/snort/snort.lua
+
+- name: enable promiscuous mode 
+  command: "ip link set dev {{ item }} promisc on"
+  loop: "{{ snort_promiscuous_mode_internet_interfaces }}"
+
+- name: turn off recieve offload options
+  command: "ethtool -K {{ item }} gro off lro off"
+  loop: "{{ snort_promiscuous_mode_internet_interfaces }}"
+
+- name: create snort nic service
+  copy:
+    dest: /etc/systemd/system/snort3-nic@.service
+    content: | 
+      [Unit]
+      Description=Set Snort 3 NIC in promiscuous mode and Disable GRO, LRO on boot
+      After=network.target
+
+      [Service]
+      Type=oneshot
+      ExecStart=/usr/sbin/ip link set dev %i promisc on
+      ExecStart=/usr/sbin/ethtool -K %i gro off lro off
+      TimeoutStartSec=0
+      RemainAfterExit=yes
+
+      [Install]
+      WantedBy=default.target
+  
+
+- name: start and enable snort nic services
+  systemd:
+    name: snort3-nic@{{ item }}.service
+    daemon_reload: yes
+    enabled: yes
+    state: started
+  loop: "{{ snort_promiscuous_mode_internet_interfaces }}"
+
+- name: create snort rules dir
+  file:
+    path: /usr/local/snort/etc/rules
+    state: directory
+
+- name: download and install snort community rules
+  unarchive:
+    remote_src: yes
+    src: https://www.snort.org/downloads/community/snort3-community-rules.tar.gz
+    dest: /usr/local/snort/etc/rules
+
+- name: add homenet varaible in snort config
+  lineinfile:
+    line: "HOME_NET = '{{ snort_home_net }}'"
+    regex: '^HOME_NET\s+=.+'
+    path: /usr/local/snort/etc/snort/snort.lua
+
+- name: exclude HOME_NET from EXTERNAL_NET in snort config
+  lineinfile:
+    line: "EXTERNAL_NET = '!$HOME_NET'"
+    regex: '^EXTERNAL_NET\s+=.+'
+    path: /usr/local/snort/etc/snort/snort.lua
+
+
+
+- name: add comma to default snort variables
+  lineinfile:
+    line: "    variables = default_variables,"
+    regex: "    variables = default_variables.*"
+    path: /usr/local/snort/etc/snort/snort.lua
+
+- name: insert snort community rules 
+  lineinfile:
+    insertafter: "variables = default_variables,"
+    line: "    rules = [[ include $RULE_PATH//snort3-community-rules/snort3-community.rules ]]"
+    path: /usr/local/snort/etc/snort/snort.lua
+
+
+- name: add snort logging config
+  lineinfile:
+    regex: "-?-?alert_fast.+"
+    line: "alert_fast = { file = true, packet = false, limit = 10, }"
+    path: /usr/local/snort/etc/snort/snort.lua
+
+- name: add a snort group
+  group:
+    name: snort
+    system: yes
+
+- name: add a snort user 
+  user:
+    name: snort
+    comment: SNORT_IDS
+    shell: /usr/sbin/nologin
+    create_home: no
+    group: snort
+    system: yes
+
+- name: add snort log directory
+  file:
+    path: "/var/log/snort_{{ item }}"
+    state: directory
+    mode: "5775"
+    owner: snort
+    group: snort
+  loop: "{{ snort_promiscuous_mode_internet_interfaces }}"
+
+- name: create snort3 service config
+  copy:
+    dest: /etc/systemd/system/snort3@.service
+    content: |
+      [Unit]
+      Description=Snort 3 NIDS Daemon for %i interface
+      After=syslog.target network.target
+
+      [Service]
+      Type=simple
+      ExecStart=/usr/local/snort/bin/snort -c /usr/local/snort/etc/snort/snort.lua -s 65535 -k none -l /var/log/snort_%i -D -i %i -m 0x1b -u snort -g snort
+      ExecStop=/bin/kill -9 $MAINPID
+
+      [Install]
+      WantedBy=multi-user.target
+
+- name: start and enable snort3 service
+  systemd:
+    name: "snort3@{{item}}"
+    enabled: yes
+    daemon_reload: yes
+    state: started
+  loop: "{{ snort_promiscuous_mode_internet_interfaces }}"
+
+...

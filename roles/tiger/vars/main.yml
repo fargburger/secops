@@ -1,0 +1,125 @@
+---
+tiger_rc_tigernobuild: Y                      # C files are corrupted (ouch.)
+tiger_rc_tiger_check_passwd: Y                # Fast
+tiger_rc_tiger_check_passwd_format: N     # Fast - not needed if on systems with pwck
+tiger_rc_tiger_check_passwd_shadow: Y # Time varies on # of users
+tiger_rc_tiger_check_passwd_nis: N    # Time varies on # of users
+tiger_rc_tiger_check_group: Y         # Fast
+tiger_rc_tiger_check_accounts: Y              # Time varies on # of users
+tiger_rc_tiger_check_rhosts: Y                # Time varies on # of users
+tiger_rc_tiger_check_netrc: Y         # Time varies on # of users
+tiger_rc_tiger_check_aliases: Y               # Fast
+tiger_rc_tiger_check_cron: Y          # Fast
+tiger_rc_tiger_check_exports: Y               # Fast
+tiger_rc_tiger_check_services: Y              # Could be faster, not bad though
+tiger_rc_tiger_check_known: Y         # Fast
+tiger_rc_tiger_check_perms: Y         # Could be faster, not bad though
+tiger_rc_tiger_check_signatures: N    # Several minutes
+tiger_rc_tiger_check_filesystem: Y    # Time varies on disk space... can be hours
+tiger_rc_tiger_check_rootdir: Y           # Fast, only 2 checks
+tiger_rc_tiger_check_root_access: Y       # Fast
+tiger_rc_tiger_check_path: Y          # Fast for just root... varies for all
+tiger_rc_tiger_check_embedded: Y              # Several minutes
+tiger_rc_tiger_check_backups: Y           # Fast
+tiger_rc_tiger_check_logfiles: Y          # Fast
+tiger_rc_tiger_check_userumask: Y         # Fast
+tiger_rc_tiger_check_etcissue: N              # Fast, needs to be customised
+tiger_rc_tiger_check_strictnw: Y              # Fast - stringent N/W server checks
+tiger_rc_tiger_check_listening: Y             # Fast
+tiger_rc_tiger_check_system: Y                # Depends on the specific system checks
+tiger_rc_tiger_check_runproc: N               # Fast, needs to be customized per system
+tiger_rc_tiger_check_deleted: N               # Depends on the number of processes on the
+tiger_rc_tiger_check_exrc: N          # Depends on the size of the filesystem
+tiger_rc_tiger_check_rootkit: Y               # Slow if chkrootkit is available
+tiger_rc_tiger_check_inetd: Y         # Fast for inetd, Varies on xinetd
+tiger_rc_tiger_check_apache: N                # Fast
+tiger_rc_tiger_check_ssh: Y           # Fast
+tiger_rc_tiger_check_sendmail: N              # Fast
+tiger_rc_tiger_check_printcap: Y              # Fast, possibly not needed in systems that use CUPS
+tiger_rc_tiger_check_anonftp: Y               # Fast
+tiger_rc_tiger_check_ftpusers: Y              # Fast
+tiger_rc_tiger_check_omniback: N      # Fast
+tiger_rc_tiger_check_ntp: Y           # Fast
+tiger_rc_tiger_check_patch: N             # Depends on your network connection
+tiger_rc_tiger_check_single: Y            # Fast
+tiger_rc_tiger_check_boot: Y              # Fast
+tiger_rc_tiger_check_inittab: Y           # Fast
+tiger_rc_tiger_check_rcumask: Y           # Fast
+tiger_rc_tiger_check_neverlog: Y          # Fast
+tiger_rc_tiger_check_os: Y                # Fast
+tiger_rc_tiger_check_networkconfig: Y     # Fast
+tiger_rc_tiger_deb_checkmd5sums: Y
+tiger_rc_tiger_deb_nopackfiles: Y
+tiger_rc_tiger_check_trusted: N
+tiger_rc_tiger_cron_sendokreports: N
+tiger_rc_tigercron_log_keep_max: 10
+tiger_rc_tiger_cron_template: N
+tiger_rc_tiger_cron_checkprev: Y
+tiger_rc_tiger_show_info_msgs: N
+tiger_rc_configure_crack: no
+tiger_rc_tiger_run_crack: N               # First time, ages; subsequent fairly quick
+tiger_rc_tiger_crack_loc_override: /mnt/cdrom/crack/Crack
+tiger_rc_tiger_crackreporter_loc_override: /mnt/cdrom/crack/Reporter
+tiger_rc_tiger_crackdir_loc_override: /usr/local/crack
+tiger_rc_tiger_output_fqdn: Y
+tiger_rc_configure_tripw: no
+tiger_rc_tiger_run_tripw: N           # Slow
+tiger_rc_tiger_tripw_loc_override: /mnt/cdrom/tripw/tripwire
+tiger_rc_tiger_run_aide: N                # Slow
+tiger_rc_tiger_run_aide_verbose: 1
+tiger_rc_tiger_aide_loc_override: /mnt/cdrom/aide/aide.bin
+tiger_rc_tiger_aide_cfg_override: /mnt/cdrom/aide/aide.conf
+tiger_rc_tiger_aide_db_override: /mnt/cdrom/aide/in.db
+tiger_rc_tiger_run_integrit: N                # Slow
+tiger_rc_tiger_integrit_cfg: /etc/integrit/integrit.conf
+tiger_rc_tiger_integrit_loc_override: /mnt/cdrom/integrit/integrit.bin
+tiger_rc_tiger_output_width: 79
+tiger_rc_tiger_cron_output_width: 0
+tiger_rc_tiger_global_path: '"/etc/profile /etc/csh.login"'
+tiger_rc_tiger_passwd_constraints: '"PASS_MIN_DAYS PASS_MAX_DAYS PASS_WARN_AGE PASS_MIN_LEN"'
+tiger_rc_tiger_passwd_hashes: "'crypt3|md5|sha512'"
+tiger_rc_tiger_dormant_limit: 60
+tiger_rc_tiger_admin_accounts: "'adm|bin|daemon|games|lp|mail|news|operator|sync|sys|uucp|man|proxy|majordom|postgres|www-data|operator|irc|gnats'"
+tiger_rc_tiger_embed_max_depth: 3
+tiger_rc_tiger_embed_check_exec_only: Y
+tiger_rc_tiger_embed_check_suid: Y
+tiger_rc_tiger_embed_report_exec_only: Y
+tiger_rc_tiger_embedded_ok_owners: "'root|bin|uucp|sys|daemon'"
+tiger_rc_tiger_embedded_ok_group_write: "'root|bin|uucp|sys|daemon'"
+tiger_rc_tiger_check_pathall: N           # Check all user PATHs in startup files.
+tiger_rc_tiger_root_path_ok_owners: "'root|uucp|bin|news|sys|daemon'"
+tiger_rc_tiger_root_path_ok_group_write: "'root|uucp|bin|sys|daemon'"
+tiger_rc_tiger_path_ok_owners: $Tiger_ROOT_PATH_OK_Owners
+tiger_rc_tiger_collect_crack: Y
+tiger_rc_tiger_crack_local: Y
+tiger_rc_tiger_mail_rcpt: '"root"'
+tiger_rc_tiger_files_of_note: '"..[!.]*/.* */.*        */.[!.]/.log/.FSP*"'
+tiger_rc_tiger_fsscan_setuid: N               # Setuid executables
+tiger_rc_tiger_fsscan_setgid: N               # Setgid executables
+tiger_rc_tiger_fsscan_devs: Y         # device files
+tiger_rc_tiger_fsscan_symlinks: Y             # strange symbolic links
+tiger_rc_tiger_fsscan_ofnote: Y               # weird filenames
+tiger_rc_tiger_fsscan_wdir: N         # world writable directories
+tiger_rc_tiger_fsscan_unowned: Y              # files with undefined owners/groups
+tiger_rc_tiger_fsscan_warnunknown: Y  # Warn about unknown filesystems used
+tiger_rc_tiger_fsscan_local: "''"               # Filesystems considered to be local to the system, pipe-separated
+tiger_rc_tiger_fsscan_nonlocal: "''"    # Filesystems considered to be non-local to the system, pipe-separated
+tiger_rc_tiger_fsscan_readonly: N
+tiger_rc_userdotfiles: '".alias .kshrc .cshrc .profile .login .mailrc .exrc .emacs .forward .tcshrc .zshenv .zshrc .zlogin .zprofile .rcrc .bashrc .bash_profile .inputrc .xinitrc .fvwm2rc .Xsession .Xclients .less"'
+tiger_rc_rhost_sites: "'*.tamu.edu|jupiter'"
+tiger_rc_tiger_accounts_trust: 999
+tiger_rc_tiger_ssh_protocol: "'1|2'"
+tiger_rc_tiger_ssh_rhostsauthentication: "'no'"
+tiger_rc_tiger_ssh_passwordauthentication: "'no'"
+tiger_rc_tiger_listening_every: Y
+tiger_rc_tiger_listening_validusers: "'root'"
+tiger_rc_tiger_listening_validprocs: "''"
+tiger_rc_tiger_running_procs: "'syslogd cron atd klogd'"
+tiger_rc_tiger_dpkg_optimize: Y
+tiger_rc_tiger_chkrootkit_args: '"-q"'
+
+
+tiger_default_NICETIGER: 10
+
+
+...

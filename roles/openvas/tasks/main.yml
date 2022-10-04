@@ -1,0 +1,88 @@
+---
+
+#THIS IS ALL GARBAGE YOU HAVE TO INSTALL IT FROM SOURCE
+# https://greenbone.github.io/docs/latest/22.4/source-build/index.html
+- name: install openvas (and redis)
+  apt:
+    name: openvas
+  when: ansible_pkg_mgr == 'apt'
+
+- name: initialize the openvas databases
+  command: "runuser -u _gvm -- {{ item }}"
+  loop:
+  - greenbone-nvt-sync
+  - greenbone-scapdata-sync
+  - greenbone-certdata-sync
+
+#UBUNTU22.04BUG
+- name: add a symlink for openvas shared libraries
+  file:
+    src: "{{ item }}"
+    dest: "/lib/x86_64-linux-gnu"
+    state: loop
+  loop:
+  - /usr/lib64/libopenvas_nasl.so.21
+  - /usr/lib64/libopenvas_misc.so.21
+
+- name: setup gvm on ubuntu 22.04
+  shell: |
+    cd /tmp
+    runuser -u _gvm -- gvm-manage-certs -a -f
+    chown -R _gvm:_gvm /var/lib/gvm
+    #DO NOT DO THIS FROM MULTIPLE MACHINES AT THE SAME TIME
+    runuser -u _gvm -- greenbone-feed-sync --type CERT
+    runuser -u postgres -- /usr/share/gvm/create-postgresql-database
+    runuser -u _gvm -- gvmd --create-user=gvmadmin --password=gvmpassword
+   
+#Greenbone Security Assistant
+#
+- name: install nodejs repo (14)
+  shell: |
+    export VERSION=node_14.x
+    export KEYRING=/usr/share/keyrings/nodesource.gpg
+    export DISTRIBUTION="$(lsb_release -s -c)"
+
+    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --dearmor | sudo tee "$KEYRING" >/dev/null
+    gpg --no-default-keyring --keyring "$KEYRING" --list-keys
+
+    echo "deb [signed-by=$KEYRING] https://deb.nodesource.com/$VERSION $DISTRIBUTION main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+    echo "deb-src [signed-by=$KEYRING] https://deb.nodesource.com/$VERSION $DISTRIBUTION main" | sudo tee -a /etc/apt/sources.list.d/nodesource.list
+    
+- name: download the gsa repo
+  git:
+    repo: https://github.com/greenbone/gsa.git
+    dest: /opt/openvas-gsa
+
+- name: build gsa
+  shell: |
+    cd /opt/openvas-gsa
+    rm -Rf build
+    yarn
+    yarn build
+
+
+# this package is not part of ubuntu 22.04
+#- name: install openvas dev
+#  apt:
+#    name: libopenvas9-dev
+#  when: ansible_pkg_mgr == 'apt'
+
+- name: enable openvas service
+  systemd:
+    name: ospd-openvas
+    state: started
+    enabled: yes
+
+#this command is not on ubuntu 22.04
+#- name: rebuild openvas manager database
+#  command: openvasmd --rebuild --progress
+
+- name: install latex extra for cool reports
+  apt:
+    name: texlive-latex-extra
+  when: ansible_pkg_mgr == 'apt'
+
+
+# do a self scan?
+ 
+...

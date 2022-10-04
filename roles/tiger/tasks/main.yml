@@ -1,0 +1,722 @@
+---
+- name: install tiger security scanner
+  apt:
+    name: tiger
+  when: ansible_pkg_mgr == 'apt'
+
+- name: tiger_rc conf TigerNoBuild
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?TigerNoBuild=.+
+    line: "TigerNoBuild={{ tiger_rc_tigernobuild }}"
+
+- name: tiger_rc conf Tiger_Check_PASSWD
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_PASSWD=.+
+    line: "Tiger_Check_PASSWD={{ tiger_rc_tiger_check_passwd }}"
+
+- name: tiger_rc conf Tiger_Check_PASSWD_FORMAT
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_PASSWD_FORMAT=.+
+    line: "Tiger_Check_PASSWD_FORMAT={{ tiger_rc_tiger_check_passwd_format }}"
+
+- name: tiger_rc conf Tiger_Check_PASSWD_SHADOW
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_PASSWD_SHADOW=.+
+    line: "Tiger_Check_PASSWD_SHADOW={{ tiger_rc_tiger_check_passwd_shadow }}"
+
+- name: tiger_rc conf Tiger_Check_PASSWD_NIS
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_PASSWD_NIS=.+
+    line: "Tiger_Check_PASSWD_NIS={{ tiger_rc_tiger_check_passwd_nis }}"
+
+- name: tiger_rc conf Tiger_Check_GROUP
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_GROUP=.+
+    line: "Tiger_Check_GROUP={{ tiger_rc_tiger_check_group }}"
+
+- name: tiger_rc conf Tiger_Check_ACCOUNTS
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_ACCOUNTS=.+
+    line: "Tiger_Check_ACCOUNTS={{ tiger_rc_tiger_check_accounts }}"
+
+- name: tiger_rc conf Tiger_Check_RHOSTS
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_RHOSTS=.+
+    line: "Tiger_Check_RHOSTS={{ tiger_rc_tiger_check_rhosts }}"
+
+- name: tiger_rc conf Tiger_Check_NETRC
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_NETRC=.+
+    line: "Tiger_Check_NETRC={{ tiger_rc_tiger_check_netrc }}"
+
+- name: tiger_rc conf Tiger_Check_ALIASES
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_ALIASES=.+
+    line: "Tiger_Check_ALIASES={{ tiger_rc_tiger_check_aliases }}"
+
+- name: tiger_rc conf Tiger_Check_CRON
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_CRON=.+
+    line: "Tiger_Check_CRON={{ tiger_rc_tiger_check_cron }}"
+
+- name: tiger_rc conf Tiger_Check_EXPORTS
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_EXPORTS=.+
+    line: "Tiger_Check_EXPORTS={{ tiger_rc_tiger_check_exports }}"
+
+- name: tiger_rc conf Tiger_Check_SERVICES
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_SERVICES=.+
+    line: "Tiger_Check_SERVICES={{ tiger_rc_tiger_check_services }}"
+
+- name: tiger_rc conf Tiger_Check_KNOWN
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_KNOWN=.+
+    line: "Tiger_Check_KNOWN={{ tiger_rc_tiger_check_known }}"
+
+- name: tiger_rc conf Tiger_Check_PERMS
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_PERMS=.+
+    line: "Tiger_Check_PERMS={{ tiger_rc_tiger_check_perms }}"
+
+- name: tiger_rc conf Tiger_Check_SIGNATURES
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_SIGNATURES=.+
+    line: "Tiger_Check_SIGNATURES={{ tiger_rc_tiger_check_signatures }}"
+
+- name: tiger_rc conf Tiger_Check_FILESYSTEM
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_FILESYSTEM=.+
+    line: "Tiger_Check_FILESYSTEM={{ tiger_rc_tiger_check_filesystem }}"
+
+- name: tiger_rc conf Tiger_Check_ROOTDIR
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_ROOTDIR=.+
+    line: "Tiger_Check_ROOTDIR={{ tiger_rc_tiger_check_rootdir }}"
+
+- name: tiger_rc conf Tiger_Check_ROOT_ACCESS
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_ROOT_ACCESS=.+
+    line: "Tiger_Check_ROOT_ACCESS={{ tiger_rc_tiger_check_root_access }}"
+
+- name: tiger_rc conf Tiger_Check_PATH
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_PATH=.+
+    line: "Tiger_Check_PATH={{ tiger_rc_tiger_check_path }}"
+
+- name: tiger_rc conf Tiger_Check_EMBEDDED
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_EMBEDDED=.+
+    line: "Tiger_Check_EMBEDDED={{ tiger_rc_tiger_check_embedded }}"
+
+- name: tiger_rc conf Tiger_Check_BACKUPS
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_BACKUPS=.+
+    line: "Tiger_Check_BACKUPS={{ tiger_rc_tiger_check_backups }}"
+
+- name: tiger_rc conf Tiger_Check_LOGFILES
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_LOGFILES=.+
+    line: "Tiger_Check_LOGFILES={{ tiger_rc_tiger_check_logfiles }}"
+
+- name: tiger_rc conf Tiger_Check_USERUMASK
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_USERUMASK=.+
+    line: "Tiger_Check_USERUMASK={{ tiger_rc_tiger_check_userumask }}"
+
+- name: tiger_rc conf Tiger_Check_ETCISSUE
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_ETCISSUE=.+
+    line: "Tiger_Check_ETCISSUE={{ tiger_rc_tiger_check_etcissue }}"
+
+- name: tiger_rc conf Tiger_Check_STRICTNW
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_STRICTNW=.+
+    line: "Tiger_Check_STRICTNW={{ tiger_rc_tiger_check_strictnw }}"
+
+- name: tiger_rc conf Tiger_Check_LISTENING
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_LISTENING=.+
+    line: "Tiger_Check_LISTENING={{ tiger_rc_tiger_check_listening }}"
+
+- name: tiger_rc conf Tiger_Check_SYSTEM
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_SYSTEM=.+
+    line: "Tiger_Check_SYSTEM={{ tiger_rc_tiger_check_system }}"
+
+- name: tiger_rc conf Tiger_Check_RUNPROC
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_RUNPROC=.+
+    line: "Tiger_Check_RUNPROC={{ tiger_rc_tiger_check_runproc }}"
+
+- name: tiger_rc conf Tiger_Check_DELETED
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_DELETED=.+
+    line: "Tiger_Check_DELETED={{ tiger_rc_tiger_check_deleted }}"
+
+- name: tiger_rc conf Tiger_Check_EXRC
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_EXRC=.+
+    line: "Tiger_Check_EXRC={{ tiger_rc_tiger_check_exrc }}"
+
+- name: tiger_rc conf Tiger_Check_ROOTKIT
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_ROOTKIT=.+
+    line: "Tiger_Check_ROOTKIT={{ tiger_rc_tiger_check_rootkit }}"
+
+- name: tiger_rc conf Tiger_Check_INETD
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_INETD=.+
+    line: "Tiger_Check_INETD={{ tiger_rc_tiger_check_inetd }}"
+
+- name: tiger_rc conf Tiger_Check_APACHE
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_APACHE=.+
+    line: "Tiger_Check_APACHE={{ tiger_rc_tiger_check_apache }}"
+
+- name: tiger_rc conf Tiger_Check_SSH
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_SSH=.+
+    line: "Tiger_Check_SSH={{ tiger_rc_tiger_check_ssh }}"
+
+- name: tiger_rc conf Tiger_Check_SENDMAIL
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_SENDMAIL=.+
+    line: "Tiger_Check_SENDMAIL={{ tiger_rc_tiger_check_sendmail }}"
+
+- name: tiger_rc conf Tiger_Check_PRINTCAP
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_PRINTCAP=.+
+    line: "Tiger_Check_PRINTCAP={{ tiger_rc_tiger_check_printcap }}"
+
+- name: tiger_rc conf Tiger_Check_ANONFTP
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_ANONFTP=.+
+    line: "Tiger_Check_ANONFTP={{ tiger_rc_tiger_check_anonftp }}"
+
+- name: tiger_rc conf Tiger_Check_FTPUSERS
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_FTPUSERS=.+
+    line: "Tiger_Check_FTPUSERS={{ tiger_rc_tiger_check_ftpusers }}"
+
+- name: tiger_rc conf Tiger_Check_OMNIBACK
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_OMNIBACK=.+
+    line: "Tiger_Check_OMNIBACK={{ tiger_rc_tiger_check_omniback }}"
+
+- name: tiger_rc conf Tiger_Check_NTP
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_NTP=.+
+    line: "Tiger_Check_NTP={{ tiger_rc_tiger_check_ntp }}"
+
+- name: tiger_rc conf Tiger_Check_PATCH
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_PATCH=.+
+    line: "Tiger_Check_PATCH={{ tiger_rc_tiger_check_patch }}"
+
+- name: tiger_rc conf Tiger_Check_SINGLE
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_SINGLE=.+
+    line: "Tiger_Check_SINGLE={{ tiger_rc_tiger_check_single }}"
+
+- name: tiger_rc conf Tiger_Check_BOOT
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_BOOT=.+
+    line: "Tiger_Check_BOOT={{ tiger_rc_tiger_check_boot }}"
+
+- name: tiger_rc conf Tiger_Check_INITTAB
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_INITTAB=.+
+    line: "Tiger_Check_INITTAB={{ tiger_rc_tiger_check_inittab }}"
+
+- name: tiger_rc conf Tiger_Check_RCUMASK
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_RCUMASK=.+
+    line: "Tiger_Check_RCUMASK={{ tiger_rc_tiger_check_rcumask }}"
+
+- name: tiger_rc conf Tiger_Check_NEVERLOG
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_NEVERLOG=.+
+    line: "Tiger_Check_NEVERLOG={{ tiger_rc_tiger_check_neverlog }}"
+
+- name: tiger_rc conf Tiger_Check_OS
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_OS=.+
+    line: "Tiger_Check_OS={{ tiger_rc_tiger_check_os }}"
+
+- name: tiger_rc conf Tiger_Check_NETWORKCONFIG
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_NETWORKCONFIG=.+
+    line: "Tiger_Check_NETWORKCONFIG={{ tiger_rc_tiger_check_networkconfig }}"
+
+- name: tiger_rc conf Tiger_Deb_CheckMD5Sums
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Deb_CheckMD5Sums=.+
+    line: "Tiger_Deb_CheckMD5Sums={{ tiger_rc_tiger_deb_checkmd5sums }}"
+
+- name: tiger_rc conf Tiger_Deb_NoPackFiles
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Deb_NoPackFiles=.+
+    line: "Tiger_Deb_NoPackFiles={{ tiger_rc_tiger_deb_nopackfiles }}"
+
+- name: tiger_rc conf Tiger_Check_TRUSTED
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_TRUSTED=.+
+    line: "Tiger_Check_TRUSTED={{ tiger_rc_tiger_check_trusted }}"
+
+- name: tiger_rc conf Tiger_Cron_SendOKReports
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Cron_SendOKReports=.+
+    line: "Tiger_Cron_SendOKReports={{ tiger_rc_tiger_cron_sendokreports }}"
+
+- name: tiger_rc conf TigerCron_Log_Keep_Max
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?TigerCron_Log_Keep_Max=.+
+    line: "TigerCron_Log_Keep_Max={{ tiger_rc_tigercron_log_keep_max }}"
+
+- name: tiger_rc conf Tiger_Cron_Template
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Cron_Template=.+
+    line: "Tiger_Cron_Template={{ tiger_rc_tiger_cron_template }}"
+
+- name: tiger_rc conf Tiger_Cron_CheckPrev
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Cron_CheckPrev=.+
+    line: "Tiger_Cron_CheckPrev={{ tiger_rc_tiger_cron_checkprev }}"
+
+- name: tiger_rc conf Tiger_Show_INFO_Msgs
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Show_INFO_Msgs=.+
+    line: "Tiger_Show_INFO_Msgs={{ tiger_rc_tiger_show_info_msgs }}"
+
+- name: Configure Tiger CRACK check
+  block:
+
+  - lineinfile:
+      path: /etc/tiger/tigerrc
+      regex: ^#?Tiger_Run_CRACK=.+
+      line: "Tiger_Run_CRACK={{ tiger_rc_tiger_run_crack }}"
+
+
+  - lineinfile:
+      path: /etc/tiger/tigerrc
+      regex: ^#?Tiger_CRACK_LOC_OVERRIDE=.+
+      line: "Tiger_CRACK_LOC_OVERRIDE={{ tiger_rc_tiger_crack_loc_override }}"
+
+  - lineinfile:
+      path: /etc/tiger/tigerrc
+      regex: ^#?Tiger_CRACKREPORTER_LOC_OVERRIDE=.+
+      line: "Tiger_CRACKREPORTER_LOC_OVERRIDE={{ tiger_rc_tiger_crackreporter_loc_override }}"
+
+  - lineinfile:
+      path: /etc/tiger/tigerrc
+      regex: ^#?Tiger_CRACKDIR_LOC_OVERRIDE=.+
+      line: "Tiger_CRACKDIR_LOC_OVERRIDE={{ tiger_rc_tiger_crackdir_loc_override }}"
+  when: tiger_rc_configure_crack
+
+- name: tiger_rc conf Tiger_Output_FQDN
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Output_FQDN=.+
+    line: "Tiger_Output_FQDN={{ tiger_rc_tiger_output_fqdn }}"
+
+- name: Configure Tiger Tripwire Check
+  block:
+  - name: tiger_rc conf Tiger_Run_TRIPW
+    lineinfile:
+      path: /etc/tiger/tigerrc
+      regex: ^#?Tiger_Run_TRIPW=.+
+      line: "Tiger_Run_TRIPW={{ tiger_rc_tiger_run_tripw }}"
+
+  - name: tiger_rc conf Tiger_TRIPW_LOC_OVERRIDE
+    lineinfile:
+      path: /etc/tiger/tigerrc
+      regex: ^#?Tiger_TRIPW_LOC_OVERRIDE=.+
+      line: "Tiger_TRIPW_LOC_OVERRIDE={{ tiger_rc_tiger_tripw_loc_override }}"
+  when: tiger_rc_configure_tripw
+
+- name: tiger_rc conf Tiger_Run_AIDE
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Run_AIDE=.+
+    line: "Tiger_Run_AIDE={{ tiger_rc_tiger_run_aide }}"
+
+- name: tiger_rc conf Tiger_Run_AIDE_VERBOSE
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Run_AIDE_VERBOSE=.+
+    line: "Tiger_Run_AIDE_VERBOSE={{ tiger_rc_tiger_run_aide_verbose }}"
+
+- name: tiger_rc conf Tiger_AIDE_LOC_OVERRIDE
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_AIDE_LOC_OVERRIDE=.+
+    line: "Tiger_AIDE_LOC_OVERRIDE={{ tiger_rc_tiger_aide_loc_override }}"
+
+- name: tiger_rc conf Tiger_AIDE_CFG_OVERRIDE
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_AIDE_CFG_OVERRIDE=.+
+    line: "Tiger_AIDE_CFG_OVERRIDE={{ tiger_rc_tiger_aide_cfg_override }}"
+
+- name: tiger_rc conf Tiger_AIDE_DB_OVERRIDE
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_AIDE_DB_OVERRIDE=.+
+    line: "Tiger_AIDE_DB_OVERRIDE={{ tiger_rc_tiger_aide_db_override }}"
+
+- name: tiger_rc conf Tiger_Run_INTEGRIT
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Run_INTEGRIT=.+
+    line: "Tiger_Run_INTEGRIT={{ tiger_rc_tiger_run_integrit }}"
+
+- name: tiger_rc conf Tiger_INTEGRIT_CFG
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_INTEGRIT_CFG=.+
+    line: "Tiger_INTEGRIT_CFG={{ tiger_rc_tiger_integrit_cfg }}"
+
+- name: tiger_rc conf Tiger_INTEGRIT_LOC_OVERRIDE
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_INTEGRIT_LOC_OVERRIDE=.+
+    line: "Tiger_INTEGRIT_LOC_OVERRIDE={{ tiger_rc_tiger_integrit_loc_override }}"
+
+- name: tiger_rc conf Tiger_Output_Width
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Output_Width=.+
+    line: "Tiger_Output_Width={{ tiger_rc_tiger_output_width }}"
+
+- name: tiger_rc conf Tiger_CRON_Output_Width
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_CRON_Output_Width=.+
+    line: "Tiger_CRON_Output_Width={{ tiger_rc_tiger_cron_output_width }}"
+
+- name: tiger_rc conf Tiger_Global_PATH
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Global_PATH=.+
+    line: "Tiger_Global_PATH={{ tiger_rc_tiger_global_path }}"
+
+- name: tiger_rc conf Tiger_Passwd_Constraints
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Passwd_Constraints=.+
+    line: "Tiger_Passwd_Constraints={{ tiger_rc_tiger_passwd_constraints }}"
+
+- name: tiger_rc conf Tiger_Passwd_Hashes
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Passwd_Hashes=.+
+    line: "Tiger_Passwd_Hashes={{ tiger_rc_tiger_passwd_hashes }}"
+
+- name: tiger_rc conf Tiger_Dormant_Limit
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Dormant_Limit=.+
+    line: "Tiger_Dormant_Limit={{ tiger_rc_tiger_dormant_limit }}"
+
+- name: tiger_rc conf Tiger_Admin_Accounts
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Admin_Accounts=.+
+    line: "Tiger_Admin_Accounts={{ tiger_rc_tiger_admin_accounts }}"
+
+- name: tiger_rc conf Tiger_Embed_Max_Depth
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Embed_Max_Depth=.+
+    line: "Tiger_Embed_Max_Depth={{ tiger_rc_tiger_embed_max_depth }}"
+
+- name: tiger_rc conf Tiger_Embed_Check_Exec_Only
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Embed_Check_Exec_Only=.+
+    line: "Tiger_Embed_Check_Exec_Only={{ tiger_rc_tiger_embed_check_exec_only }}"
+
+- name: tiger_rc conf Tiger_Embed_Check_SUID
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Embed_Check_SUID=.+
+    line: "Tiger_Embed_Check_SUID={{ tiger_rc_tiger_embed_check_suid }}"
+
+- name: tiger_rc conf Tiger_Embed_Report_Exec_Only
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Embed_Report_Exec_Only=.+
+    line: "Tiger_Embed_Report_Exec_Only={{ tiger_rc_tiger_embed_report_exec_only }}"
+
+- name: tiger_rc conf Tiger_Embedded_OK_Owners
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Embedded_OK_Owners=.+
+    line: "Tiger_Embedded_OK_Owners={{ tiger_rc_tiger_embedded_ok_owners }}"
+    firstmatch: yes
+
+- name: tiger_rc conf Tiger_Embedded_OK_Group_Write
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Embedded_OK_Group_Write=.+
+    line: "Tiger_Embedded_OK_Group_Write={{ tiger_rc_tiger_embedded_ok_group_write }}"
+
+- name: tiger_rc conf Tiger_Check_PATHALL
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Check_PATHALL=.+
+    line: "Tiger_Check_PATHALL={{ tiger_rc_tiger_check_pathall }}"
+
+- name: tiger_rc conf Tiger_ROOT_PATH_OK_Owners
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_ROOT_PATH_OK_Owners=.+
+    line: "Tiger_ROOT_PATH_OK_Owners={{ tiger_rc_tiger_root_path_ok_owners }}"
+    firstmatch: yes
+
+- name: tiger_rc conf Tiger_ROOT_PATH_OK_Group_Write
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_ROOT_PATH_OK_Group_Write=.+
+    line: "Tiger_ROOT_PATH_OK_Group_Write={{ tiger_rc_tiger_root_path_ok_group_write }}"
+
+- name: tiger_rc conf Tiger_PATH_OK_Owners
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_PATH_OK_Owners=.+
+    line: "Tiger_PATH_OK_Owners={{ tiger_rc_tiger_path_ok_owners }}"
+
+- name: tiger_rc conf Tiger_Collect_CRACK
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Collect_CRACK=.+
+    line: "Tiger_Collect_CRACK={{ tiger_rc_tiger_collect_crack }}"
+
+- name: tiger_rc conf Tiger_Crack_Local
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Crack_Local=.+
+    line: "Tiger_Crack_Local={{ tiger_rc_tiger_crack_local }}"
+
+- name: tiger_rc conf Tiger_Mail_RCPT
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Mail_RCPT=.+
+    line: "Tiger_Mail_RCPT={{ tiger_rc_tiger_mail_rcpt }}"
+
+- name: tiger_rc conf Tiger_Files_of_Note
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Files_of_Note=.+
+    line: "Tiger_Files_of_Note={{ tiger_rc_tiger_files_of_note }}"
+
+- name: tiger_rc conf Tiger_FSScan_Setuid
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_FSScan_Setuid=.+
+    line: "Tiger_FSScan_Setuid={{ tiger_rc_tiger_fsscan_setuid }}"
+
+- name: tiger_rc conf Tiger_FSScan_Setgid
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_FSScan_Setgid=.+
+    line: "Tiger_FSScan_Setgid={{ tiger_rc_tiger_fsscan_setgid }}"
+
+- name: tiger_rc conf Tiger_FSScan_Devs
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_FSScan_Devs=.+
+    line: "Tiger_FSScan_Devs={{ tiger_rc_tiger_fsscan_devs }}"
+
+- name: tiger_rc conf Tiger_FSScan_SymLinks
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_FSScan_SymLinks=.+
+    line: "Tiger_FSScan_SymLinks={{ tiger_rc_tiger_fsscan_symlinks }}"
+
+- name: tiger_rc conf Tiger_FSScan_ofNote
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_FSScan_ofNote=.+
+    line: "Tiger_FSScan_ofNote={{ tiger_rc_tiger_fsscan_ofnote }}"
+
+- name: tiger_rc conf Tiger_FSScan_WDIR
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_FSScan_WDIR=.+
+    line: "Tiger_FSScan_WDIR={{ tiger_rc_tiger_fsscan_wdir }}"
+
+- name: tiger_rc conf Tiger_FSScan_Unowned
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_FSScan_Unowned=.+
+    line: "Tiger_FSScan_Unowned={{ tiger_rc_tiger_fsscan_unowned }}"
+
+- name: tiger_rc conf Tiger_FSScan_WarnUnknown
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_FSScan_WarnUnknown=.+
+    line: "Tiger_FSScan_WarnUnknown={{ tiger_rc_tiger_fsscan_warnunknown }}"
+
+- name: tiger_rc conf Tiger_FSScan_Local
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_FSScan_Local=.+
+    line: "Tiger_FSScan_Local={{ tiger_rc_tiger_fsscan_local }}"
+
+- name: tiger_rc conf Tiger_FSScan_NonLocal
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_FSScan_NonLocal=.+
+    line: "Tiger_FSScan_NonLocal={{ tiger_rc_tiger_fsscan_nonlocal }}"
+
+- name: tiger_rc conf Tiger_FSScan_ReadOnly
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_FSScan_ReadOnly=.+
+    line: "Tiger_FSScan_ReadOnly={{ tiger_rc_tiger_fsscan_readonly }}"
+
+- name: tiger_rc conf USERDOTFILES
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?USERDOTFILES=.+
+    line: "USERDOTFILES={{ tiger_rc_userdotfiles }}"
+
+- name: tiger_rc conf RHOST_SITES
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?RHOST_SITES=.+
+    line: "RHOST_SITES={{ tiger_rc_rhost_sites }}"
+
+- name: tiger_rc conf Tiger_Accounts_Trust
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Accounts_Trust=.+
+    line: "Tiger_Accounts_Trust={{ tiger_rc_tiger_accounts_trust }}"
+
+- name: tiger_rc conf Tiger_SSH_Protocol
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_SSH_Protocol=.+
+    line: "Tiger_SSH_Protocol={{ tiger_rc_tiger_ssh_protocol }}"
+
+- name: tiger_rc conf Tiger_SSH_RhostsAuthentication
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_SSH_RhostsAuthentication=.+
+    line: "Tiger_SSH_RhostsAuthentication={{ tiger_rc_tiger_ssh_rhostsauthentication }}"
+
+- name: tiger_rc conf Tiger_SSH_PasswordAuthentication
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_SSH_PasswordAuthentication=.+
+    line: "Tiger_SSH_PasswordAuthentication={{ tiger_rc_tiger_ssh_passwordauthentication }}"
+
+- name: tiger_rc conf Tiger_Listening_Every
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Listening_Every=.+
+    line: "Tiger_Listening_Every={{ tiger_rc_tiger_listening_every }}"
+
+- name: tiger_rc conf Tiger_Listening_ValidUsers
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Listening_ValidUsers=.+
+    line: "Tiger_Listening_ValidUsers={{ tiger_rc_tiger_listening_validusers }}"
+
+- name: tiger_rc conf Tiger_Listening_ValidProcs
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Listening_ValidProcs=.+
+    line: "Tiger_Listening_ValidProcs={{ tiger_rc_tiger_listening_validprocs }}"
+
+- name: tiger_rc conf Tiger_Running_Procs
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_Running_Procs=.+
+    line: "Tiger_Running_Procs={{ tiger_rc_tiger_running_procs }}"
+
+- name: tiger_rc conf Tiger_DPKG_Optimize
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_DPKG_Optimize=.+
+    line: "Tiger_DPKG_Optimize={{ tiger_rc_tiger_dpkg_optimize }}"
+
+- name: tiger_rc conf Tiger_CHKROOTKIT_ARGS
+  lineinfile:
+    path: /etc/tiger/tigerrc
+    regex: ^#?Tiger_CHKROOTKIT_ARGS=.+
+    line: "Tiger_CHKROOTKIT_ARGS={{ tiger_rc_tiger_chkrootkit_args }}"
+
+#############DEFAULT##########################
+
+- name: tiger_rc /etc/default/tiger NICETIGER
+  lineinfile:
+    path: /etc/default/tiger
+    regex: ^#?NICETIGER=.+
+    line: "NICETIGER={{ tiger_rc_tiger_chkrootkit_args }}"
+
+
+
+
+
+
+...
