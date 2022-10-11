@@ -2,4 +2,16 @@
 snort_promiscuous_mode_internet_interfaces: ['eth0']
 snort_home_net: '192.168.0.100/32'
 
+snort_bin_path: "{% if ansible_os_family == 'RedHat' %}/usr/local/bin/snort{% elif ansible_os_family == 'Debian' %}/usr/local/snort/bin/snort{% endif %}"
+
+snort_conf_path: /usr/local/etc/snort/snort.lua #fedora
+#snort_conf_path: /usr/local/snort/etc/snort/snort.lua #ubuntu
+
+snort_daq_dir: /usr/local/lib/daq
+
+snort_rules_dir: /usr/local/etc/rules #fedora
+#snort_rules_dir: /usr/local/snort/etc/rules #ubuntu
+
+snort_community_rules_url: https://www.snort.org/downloads/community/snort3-community-rules.tar.gz
+
 ...

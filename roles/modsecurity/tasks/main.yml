@@ -1,9 +1,9 @@
 ---
-- name: install nginx from apt
-  apt:
+- name: install nginx
+  package:
     name: nginx
 
-- name: install build prepreq for mod-security
+- name: install build prepreqs for modsecurity (apt)
   apt:
     name: 
     - bison
@@ -36,6 +36,28 @@
     - libxslt1.1
     - libgd-dev
   when: ansible_pkg_mgr == 'apt'
+
+- name: install build prereqs for modsecurity (dnf)
+  dnf:
+    name:
+    - autoconf
+    - automake
+    - git
+    - libtool
+    - pkgconf
+    - wget
+    - libcurl-devel
+    - GeoIP-devel
+    - lmdb-devel
+    - pcre-devel
+    - pcre2-devel
+    - libxml2-devel
+    - yajl-devel
+    - zlib-devel
+    - libxslt-devel
+    - gd-devel
+    - perl-ExtUtils-Embed
+  when: ansible_pkg_mgr == 'dnf'
 
 - name: check out modsecurity source code
   git:
@@ -82,7 +104,7 @@
     remote_src: yes
 
 - name: get nginx configuration arguments
-  shell: nginx -V 2>&1 | grep 'configure arguments:' | cut -d{{':'}} -f2 | perl -pne 's/--add-dynamic-module=\S+//'
+  shell: nginx -V 2>&1 | grep 'configure arguments:' | cut -d{{':'}} -f2 | perl -pne 's/--add-dynamic-module=\S+//' | perl -pne 's/--with-ld-opt=\S+//' | perl -pne 's/--with-cc-opt=\S+//'  
   register: nginx_configure_arguments_check
 
 - name: set nginx configure arguments
@@ -109,7 +131,7 @@
 - name: add the modsecurity module to nginx config
   lineinfile:
     path: /etc/nginx/nginx.conf
-    insertafter: "include /etc/nginx/modules-enabled.*"
+    insertafter: "{{ modsecurity_nginx_insert_include_identifier }}"
     firstmatch: yes
     line: load_module /etc/nginx/modules/ngx_http_modsecurity_module.so;
 
@@ -117,6 +139,7 @@
   git:
     repo: https://github.com/coreruleset/coreruleset 
     dest: /usr/local/modsecurity-crs
+    force: yes
 
 - name: Copy the core ruleset config file
   copy:
@@ -170,6 +193,17 @@
       modsecurity_rules_file /etc/nginx/modsec/main.conf;
     marker: "# {mark} ANSIBLE MANAGED MODSECURITY BLOCK"
     path: "{{ modsecurity_nginx_default_config }}"
+
+# selinux will probably complain about this
+#
+#[root@h-secops-fedora-01 nginx]# grep nginx /var/log/audit/audit.log | audit2allow -a -M nginx
+#******************** IMPORTANT ***********************
+#To make this policy package active, execute:
+#
+#semodule -i nginx.pp
+#
+#[root@h-secops-fedora-01 nginx]# semodule -i nginx.pp
+
 
 - name: restart nginx
   systemd:

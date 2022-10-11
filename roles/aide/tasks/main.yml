@@ -1,57 +1,14 @@
 ---
-- name: install aide on ubuntu via apt
-  apt:
+- name: install aide
+  package:
     name: aide
-  when:  ansible_pkg_mgr == 'apt'
 
-- name: configure aide checksum
-  lineinfile:
-    regex: 'Checksums\s*=.+'
-    line: "Checksums = {{ aide_checksums }}"
-    path: /etc/aide/aide.conf
+- name: configure aide for debian
+  include_tasks: aide_debian_conf.yml
+  when: "{{ ansible_os_family == 'Debian' }}"
 
-- name: add aide exclusions
-  copy:
-    content: "{{ aide_exclude_path_list }}"
-    dest: /etc/aide/aide.conf.d/00_excludes
-
-- name: set aide cron daily
-  lineinfile:
-    line: 'CRON_DAILY_RUN={{ aide_cron_daily_run }}'
-    regex: "CRON_DAILY_RUN=.*"
-    path: /etc/default/aide
-
-- name: set aide report mailing address
-  lineinfile:
-    line: "MAILTO={{ aide_mailto }}"
-    regex: "MAILTO=.*"
-    path: /etc/default/aide
-
-- name: set aide truncate details option
-  lineinfile:
-    line: 'TRUNCATEDETAILS={{ aide_cron_daily_run }}'
-    regex: "TRUNCATEDETAILS=.*"
-    path: /etc/default/aide
-
-- name: set aide filter updates option
-  lineinfile:
-    line: 'FILTERUPDATES={{ aide_cron_daily_run }}'
-    regex: "FILTERUPDATES=.*"
-    path: /etc/default/aide
-
-- name: set aide filter installations option
-  lineinfile:
-    line: 'FILTERINSTALLATIONS={{ aide_cron_daily_run }}'
-    regex: "FILTERINSTALLATIONS=.*"
-    path: /etc/default/aide
-
-- name: check if aide db exists
-  stat:
-    path: /var/lib/aide/aide.db.new
-  register: aide_db_path
-
-- name: initialize aide database
-  command: /usr/sbin/aideinit
-  when: not aide_db_path.stat.exists
+- name: configure aide for redhat
+  include_tasks: aide_redhat_conf.yml
+  when: "{{ ansible_os_family == 'RedHat' }}"
 
 ...

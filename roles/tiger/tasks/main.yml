@@ -712,7 +712,7 @@
   lineinfile:
     path: /etc/default/tiger
     regex: ^#?NICETIGER=.+
-    line: "NICETIGER={{ tiger_rc_tiger_chkrootkit_args }}"
+    line: "NICETIGER={{ tiger_default_NICETIGER }}"
 
 
 

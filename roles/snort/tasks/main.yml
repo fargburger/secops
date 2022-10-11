@@ -1,5 +1,5 @@
 ---
-- name: install snort prerequisites
+- name: install snort prerequisites apt
   apt:
     name:
     - build-essential 
@@ -29,12 +29,57 @@
     - libluajit-5.1-dev
     - libunwind-dev
     - libfl-dev
+  when: ansible_pkg_mgr == 'apt'
 
+- name: install snort prerequisites dnf
+  dnf:
+    name:
+    - cmake
+    - libdnet
+    - flex
+    - g++
+    - hwloc
+    - hwloc-devel
+    - libdnet-devel
+    - openssl
+    - openssl-devel
+    - libpcap-devel
+    - libpcap
+    - pcre
+    - pcre-devel
+    - luajit
+    - luajit-devel
+    - libdnet-devel
+    - libuuid-devel
+    - libuuid
+    - uuid-devel
+    - hyperscan-devel
+    - hyperscan
+    - flatbuffers
+    - flatbuffers-devel
+    - jemalloc-devel
+    - jemalloc
+    - pkgconf-pkg-config
+    - zlib
+    - zlib-devel
+    - xz-devel
+    - dh-autoreconf
+    - bison
+    - libmnl-devel
+    - libnetfilter_queue-devel
+    - libnfnetlink-devel
+    - gperftools #this may take the place of needing to install it from scratch
+    - daq #this may take the place of needing to install it from scratch
+  when: ansible_pkg_mgr == 'dnf'
+
+#NOTE, for fedora, I believe we should install daq from scratch and gperftools from rpm
+# otherwise, DAQ module cannot find pcap 
 #TODO add a version
 - name: clone snort libdaq
   git:
     repo: https://github.com/snort3/libdaq.git
     dest: /opt/snort3-libdaq
+  when: ansible_os_family == 'debian'
 
 - name: build and conifgure libdaq
   shell: |
@@ -44,19 +89,23 @@
     ./configure
     make
     make install
+  when: ansible_os_family == 'debian'
 
 #TODO add a version
 - name: clone gperftools (optional thread caching memory allocation package_
   git:
     repo: https://github.com/gperftools/gperftools.git
     dest: /opt/snort3-gperftools
+  when: ansible_os_family == 'debian'
 
 - name: build and configure gperftools
   shell: |
     cd /opt/snort3-gperftools
+    ./autogen.sh
     ./configure
     make
     make install
+  when: ansible_os_family == 'debian'
 
 #TODO add a version
 - name: clone snort3
@@ -73,16 +122,15 @@
 
 - name: install snort
   shell: |
-    cd /opt/snort3
+    cd /opt/snort3/build
     make install
     ldconfig
 
-
 - name: check snort version
-  command: /usr/local/snort/bin/snort -V
+  command: "{{ snort_bin_path }} -V"
 
-- name: check snort config
-  command: /usr/local/snort/bin/snort -c /usr/local/snort/etc/snort/snort.lua
+- name: check 
+  command: "{{ snort_bin_path }} -c {{ snort_conf_path }} --daq-dir={{ snort_daq_dir }}"
 
 - name: enable promiscuous mode 
   command: "ip link set dev {{ item }} promisc on"
@@ -121,26 +169,26 @@
 
 - name: create snort rules dir
   file:
-    path: /usr/local/snort/etc/rules
+    path: "{{ snort_rules_dir }}"
     state: directory
 
 - name: download and install snort community rules
   unarchive:
     remote_src: yes
-    src: https://www.snort.org/downloads/community/snort3-community-rules.tar.gz
-    dest: /usr/local/snort/etc/rules
+    src: "{{ snort_community_rules_url }}"
+    dest: "{{ snort_rules_dir }}"
 
 - name: add homenet varaible in snort config
   lineinfile:
     line: "HOME_NET = '{{ snort_home_net }}'"
     regex: '^HOME_NET\s+=.+'
-    path: /usr/local/snort/etc/snort/snort.lua
+    path: "{{ snort_conf_path }}"
 
 - name: exclude HOME_NET from EXTERNAL_NET in snort config
   lineinfile:
     line: "EXTERNAL_NET = '!$HOME_NET'"
     regex: '^EXTERNAL_NET\s+=.+'
-    path: /usr/local/snort/etc/snort/snort.lua
+    path: "{{ snort_conf_path }}"
 
 
 
@@ -148,20 +196,20 @@
   lineinfile:
     line: "    variables = default_variables,"
     regex: "    variables = default_variables.*"
-    path: /usr/local/snort/etc/snort/snort.lua
+    path: "{{ snort_conf_path }}"
 
 - name: insert snort community rules 
   lineinfile:
     insertafter: "variables = default_variables,"
     line: "    rules = [[ include $RULE_PATH//snort3-community-rules/snort3-community.rules ]]"
-    path: /usr/local/snort/etc/snort/snort.lua
+    path: "{{ snort_conf_path }}"
 
 
 - name: add snort logging config
   lineinfile:
     regex: "-?-?alert_fast.+"
     line: "alert_fast = { file = true, packet = false, limit = 10, }"
-    path: /usr/local/snort/etc/snort/snort.lua
+    path: "{{ snort_conf_path }}"
 
 - name: add a snort group
   group:
@@ -196,7 +244,7 @@
 
       [Service]
       Type=simple
-      ExecStart=/usr/local/snort/bin/snort -c /usr/local/snort/etc/snort/snort.lua -s 65535 -k none -l /var/log/snort_%i -D -i %i -m 0x1b -u snort -g snort
+      ExecStart={{ snort_bin_path }} -c {{ snort_conf_path }} --daq-dir "{{ snort_daq_dir }}"  -s 65535 -k none -l /var/log/snort_%i -D -i %i -m 0x1b -u snort -g snort
       ExecStop=/bin/kill -9 $MAINPID
 
       [Install]

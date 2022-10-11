@@ -1,0 +1,48 @@
+---
+- name: add splunk group
+  group: 
+    name: splunk
+    system: yes
+
+- name: add splunk user
+  user: 
+    name: splunk
+    create_home: no
+    system: yes
+    group: splunk
+
+    #- name: download splunk
+    #  get_url:
+    #    dest: "/tmp/{{ splunkforwarder_deb_package }}"
+    #    url: "{{ splunkforwarder_download_url }}"
+
+- name: install splunk with apt
+  apt:
+    deb: "{{ splunkforwarder_deb_download_url }}"
+  when: ansible_pkg_mgr == 'apt'
+
+- name: install splunk with dnf
+  dnf:
+    name: "{{ splunkforwarder_rpm_download_url }}"
+    disable_gpg_check: yes
+  when: ansible_pkg_mgr == 'dnf'
+
+
+- name: chown the splunk dir
+  command: chown -R splunk:splunk /opt/splunkforwarder
+
+- name: enable splunk service
+  command: /opt/splunkforwarder/bin/splunk enable boot-start -user splunk -systemd-managed 1 --no-prompt --answer-yes --accept-license -systemd-unit-file-name splunkd
+  register: splunk_enable
+  changed_when: splunk_enable.rc == 0 
+  failed_when: splunk_enable.rc == 0 or ('A systemd unit file already exists' not in splunk_enable.stderr and 'splunk is currently running' not in splunk_enable.stderr and ' splunk is running as non root' not in splunk_enable.stderr )
+
+- name: start splunk service
+  systemd:
+    name: splunkd
+    state: started
+    enabled: yes
+
+#TODO configure a logging destination
+
+...

@@ -1,504 +1,512 @@
 ---
-- name: install clamav daemon
+- name: install clamav daemon (debian)
   apt:
     name: clamav-daemon
   when:  ansible_pkg_mgr == 'apt'
 
+- name: install clamav daemon (redhat)
+  dnf:
+    name: clamd
+  when: ansible_pkg_mgr == 'dnf'
+
 - name: update clam conf LocalSocket
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: LocalSocket\s+.+
     line: "LocalSocket {{ clamav_conf_localsocket }}"
 
 - name: update clam conf FixStaleSocket
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: FixStaleSocket\s+.+
     line: "FixStaleSocket {{ clamav_conf_fixstalesocket }}"
 
 - name: update clam conf LocalSocketGroup
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: LocalSocketGroup\s+.+
     line: "LocalSocketGroup {{ clamav_conf_localsocketgroup }}"
 
 - name: update clam conf LocalSocketMode
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: LocalSocketMode\s+.+
     line: "LocalSocketMode {{ clamav_conf_localsocketmode }}"
 
 - name: update clam conf User
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: User\s+.+
     line: "User {{ clamav_conf_user }}"
 
 - name: update clam conf ScanMail
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: ScanMail\s+.+
     line: "ScanMail {{ clamav_conf_scanmail }}"
 
 - name: update clam conf ScanArchive
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: ScanArchive\s+.+
     line: "ScanArchive {{ clamav_conf_scanarchive }}"
 
 - name: update clam conf ArchiveBlockEncrypted
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: ArchiveBlockEncrypted\s+.+
     line: "ArchiveBlockEncrypted {{ clamav_conf_archiveblockencrypted }}"
 
 - name: update clam conf MaxDirectoryRecursion
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: MaxDirectoryRecursion\s+.+
     line: "MaxDirectoryRecursion {{ clamav_conf_maxdirectoryrecursion }}"
 
 - name: update clam conf FollowDirectorySymlinks
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: FollowDirectorySymlinks\s+.+
     line: "FollowDirectorySymlinks {{ clamav_conf_followdirectorysymlinks }}"
 
 - name: update clam conf FollowFileSymlinks
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: FollowFileSymlinks\s+.+
     line: "FollowFileSymlinks {{ clamav_conf_followfilesymlinks }}"
 
 - name: update clam conf ReadTimeout
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: ^ReadTimeout\s+.+
     line: "ReadTimeout {{ clamav_conf_readtimeout }}"
 
 - name: update clam conf MaxThreads
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: MaxThreads\s+.+
     line: "MaxThreads {{ clamav_conf_maxthreads }}"
 
 - name: update clam conf MaxConnectionQueueLength
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: MaxConnectionQueueLength\s+.+
     line: "MaxConnectionQueueLength {{ clamav_conf_maxconnectionqueuelength }}"
 
 - name: update clam conf LogSyslog
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: LogSyslog\s+.+
     line: "LogSyslog {{ clamav_conf_logsyslog }}"
 
 - name: update clam conf LogRotate
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: LogRotate\s+.+
     line: "LogRotate {{ clamav_conf_logrotate }}"
 
 - name: update clam conf LogFacility
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: LogFacility\s+.+
     line: "LogFacility {{ clamav_conf_logfacility }}"
 
 - name: update clam conf LogClean
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: LogClean\s+.+
     line: "LogClean {{ clamav_conf_logclean }}"
 
 - name: update clam conf LogVerbose
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: LogVerbose\s+.+
     line: "LogVerbose {{ clamav_conf_logverbose }}"
 
 - name: update clam conf PreludeEnable
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: PreludeEnable\s+.+
     line: "PreludeEnable {{ clamav_conf_preludeenable }}"
 
 - name: update clam conf PreludeAnalyzerName
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: PreludeAnalyzerName\s+.+
     line: "PreludeAnalyzerName {{ clamav_conf_preludeanalyzername }}"
 
 - name: update clam conf DatabaseDirectory
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: DatabaseDirectory\s+.+
     line: "DatabaseDirectory {{ clamav_conf_databasedirectory }}"
 
 - name: update clam conf OfficialDatabaseOnly
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: OfficialDatabaseOnly\s+.+
     line: "OfficialDatabaseOnly {{ clamav_conf_officialdatabaseonly }}"
 
 - name: update clam conf SelfCheck
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: SelfCheck\s+.+
     line: "SelfCheck {{ clamav_conf_selfcheck }}"
 
 - name: update clam conf Foreground
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: Foreground\s+.+
     line: "Foreground {{ clamav_conf_foreground }}"
 
 - name: update clam conf Debug
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: Debug\s+.+
     line: "Debug {{ clamav_conf_debug }}"
 
 - name: update clam conf ScanPE
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: ScanPE\s+.+
     line: "ScanPE {{ clamav_conf_scanpe }}"
 
 - name: update clam conf MaxEmbeddedPE
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: MaxEmbeddedPE\s+.+
     line: "MaxEmbeddedPE {{ clamav_conf_maxembeddedpe }}"
 
 - name: update clam conf ScanOLE2
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: ScanOLE2\s+.+
     line: "ScanOLE2 {{ clamav_conf_scanole2 }}"
 
 - name: update clam conf ScanPDF
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: ScanPDF\s+.+
     line: "ScanPDF {{ clamav_conf_scanpdf }}"
 
 - name: update clam conf ScanHTML
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: ScanHTML\s+.+
     line: "ScanHTML {{ clamav_conf_scanhtml }}"
 
 - name: update clam conf MaxHTMLNormalize
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: MaxHTMLNormalize\s+.+
     line: "MaxHTMLNormalize {{ clamav_conf_maxhtmlnormalize }}"
 
 - name: update clam conf MaxHTMLNoTags
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: MaxHTMLNoTags\s+.+
     line: "MaxHTMLNoTags {{ clamav_conf_maxhtmlnotags }}"
 
 - name: update clam conf MaxScriptNormalize
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: MaxScriptNormalize\s+.+
     line: "MaxScriptNormalize {{ clamav_conf_maxscriptnormalize }}"
 
 - name: update clam conf MaxZipTypeRcg
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: MaxZipTypeRcg\s+.+
     line: "MaxZipTypeRcg {{ clamav_conf_maxziptypercg }}"
 
 - name: update clam conf ScanSWF
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: ScanSWF\s+.+
     line: "ScanSWF {{ clamav_conf_scanswf }}"
 
 - name: update clam conf ExitOnOOM
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: ExitOnOOM\s+.+
     line: "ExitOnOOM {{ clamav_conf_exitonoom }}"
 
 - name: update clam conf LeaveTemporaryFiles
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: LeaveTemporaryFiles\s+.+
     line: "LeaveTemporaryFiles {{ clamav_conf_leavetemporaryfiles }}"
 
 - name: update clam conf AlgorithmicDetection
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: AlgorithmicDetection\s+.+
     line: "AlgorithmicDetection {{ clamav_conf_algorithmicdetection }}"
 
 - name: update clam conf ScanELF
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: ScanELF\s+.+
     line: "ScanELF {{ clamav_conf_scanelf }}"
 
 - name: update clam conf IdleTimeout
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: IdleTimeout\s+.+
     line: "IdleTimeout {{ clamav_conf_idletimeout }}"
 
 - name: update clam conf CrossFilesystems
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: CrossFilesystems\s+.+
     line: "CrossFilesystems {{ clamav_conf_crossfilesystems }}"
 
 - name: update clam conf PhishingSignatures
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: PhishingSignatures\s+.+
     line: "PhishingSignatures {{ clamav_conf_phishingsignatures }}"
 
 - name: update clam conf PhishingScanURLs
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: PhishingScanURLs\s+.+
     line: "PhishingScanURLs {{ clamav_conf_phishingscanurls }}"
 
 - name: update clam conf PhishingAlwaysBlockSSLMismatch
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: PhishingAlwaysBlockSSLMismatch\s+.+
     line: "PhishingAlwaysBlockSSLMismatch {{ clamav_conf_phishingalwaysblocksslmismatch }}"
 
 - name: update clam conf PhishingAlwaysBlockCloak
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: PhishingAlwaysBlockCloak\s+.+
     line: "PhishingAlwaysBlockCloak {{ clamav_conf_phishingalwaysblockcloak }}"
 
 - name: update clam conf PartitionIntersection
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: PartitionIntersection\s+.+
     line: "PartitionIntersection {{ clamav_conf_partitionintersection }}"
 
 - name: update clam conf DetectPUA
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: DetectPUA\s+.+
     line: "DetectPUA {{ clamav_conf_detectpua }}"
 
 - name: update clam conf ScanPartialMessages
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: ScanPartialMessages\s+.+
     line: "ScanPartialMessages {{ clamav_conf_scanpartialmessages }}"
 
 - name: update clam conf HeuristicScanPrecedence
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: HeuristicScanPrecedence\s+.+
     line: "HeuristicScanPrecedence {{ clamav_conf_heuristicscanprecedence }}"
 
 - name: update clam conf StructuredDataDetection
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: StructuredDataDetection\s+.+
     line: "StructuredDataDetection {{ clamav_conf_structureddatadetection }}"
 
 - name: update clam conf CommandReadTimeout
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: CommandReadTimeout\s+.+
     line: "CommandReadTimeout {{ clamav_conf_commandreadtimeout }}"
 
 - name: update clam conf SendBufTimeout
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: SendBufTimeout\s+.+
     line: "SendBufTimeout {{ clamav_conf_sendbuftimeout }}"
 
 - name: update clam conf MaxQueue
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: MaxQueue\s+.+
     line: "MaxQueue {{ clamav_conf_maxqueue }}"
 
 - name: update clam conf ExtendedDetectionInfo
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: ExtendedDetectionInfo\s+.+
     line: "ExtendedDetectionInfo {{ clamav_conf_extendeddetectioninfo }}"
 
 - name: update clam conf OLE2BlockMacros
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: OLE2BlockMacros\s+.+
     line: "OLE2BlockMacros {{ clamav_conf_ole2blockmacros }}"
 
 - name: update clam conf AllowAllMatchScan
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: AllowAllMatchScan\s+.+
     line: "AllowAllMatchScan {{ clamav_conf_allowallmatchscan }}"
 
 - name: update clam conf ForceToDisk
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: ForceToDisk\s+.+
     line: "ForceToDisk {{ clamav_conf_forcetodisk }}"
 
 - name: update clam conf DisableCertCheck
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: DisableCertCheck\s+.+
     line: "DisableCertCheck {{ clamav_conf_disablecertcheck }}"
 
 - name: update clam conf DisableCache
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: DisableCache\s+.+
     line: "DisableCache {{ clamav_conf_disablecache }}"
 
 - name: update clam conf MaxScanTime
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: MaxScanTime\s+.+
     line: "MaxScanTime {{ clamav_conf_maxscantime }}"
 
 - name: update clam conf MaxScanSize
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: MaxScanSize\s+.+
     line: "MaxScanSize {{ clamav_conf_maxscansize }}"
 
 - name: update clam conf MaxFileSize
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: ^MaxFileSize\s+.+
     line: "MaxFileSize {{ clamav_conf_maxfilesize }}"
 
 - name: update clam conf MaxRecursion
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: MaxRecursion\s+.+
     line: "MaxRecursion {{ clamav_conf_maxrecursion }}"
 
 - name: update clam conf MaxFiles
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: MaxFiles\s+.+
     line: "MaxFiles {{ clamav_conf_maxfiles }}"
 
 - name: update clam conf MaxPartitions
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: MaxPartitions\s+.+
     line: "MaxPartitions {{ clamav_conf_maxpartitions }}"
 
 - name: update clam conf MaxIconsPE
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: MaxIconsPE\s+.+
     line: "MaxIconsPE {{ clamav_conf_maxiconspe }}"
 
 - name: update clam conf PCREMatchLimit
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: PCREMatchLimit\s+.+
     line: "PCREMatchLimit {{ clamav_conf_pcrematchlimit }}"
 
 - name: update clam conf PCRERecMatchLimit
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: PCRERecMatchLimit\s+.+
     line: "PCRERecMatchLimit {{ clamav_conf_pcrerecmatchlimit }}"
 
 - name: update clam conf PCREMaxFileSize
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: PCREMaxFileSize\s+.+
     line: "PCREMaxFileSize {{ clamav_conf_pcremaxfilesize }}"
 
 - name: update clam conf ScanXMLDOCS
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: ScanXMLDOCS\s+.+
     line: "ScanXMLDOCS {{ clamav_conf_scanxmldocs }}"
 
 - name: update clam conf ScanHWP3
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: ScanHWP3\s+.+
     line: "ScanHWP3 {{ clamav_conf_scanhwp3 }}"
 
 - name: update clam conf MaxRecHWP3
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: MaxRecHWP3\s+.+
     line: "MaxRecHWP3 {{ clamav_conf_maxrechwp3 }}"
 
 - name: update clam conf StreamMaxLength
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: StreamMaxLength\s+.+
     line: "StreamMaxLength {{ clamav_conf_streammaxlength }}"
 
 - name: update clam conf LogFile
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: LogFile\s+.+
     line: "LogFile {{ clamav_conf_logfile }}"
 
 - name: update clam conf LogTime
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: LogTime\s+.+
     line: "LogTime {{ clamav_conf_logtime }}"
 
 - name: update clam conf LogFileUnlock
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: LogFileUnlock\s+.+
     line: "LogFileUnlock {{ clamav_conf_logfileunlock }}"
 
 - name: update clam conf LogFileMaxSize
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: LogFileMaxSize\s+.+
     line: "LogFileMaxSize {{ clamav_conf_logfilemaxsize }}"
 
 - name: update clam conf Bytecode
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: Bytecode\s+.+
     line: "Bytecode {{ clamav_conf_bytecode }}"
 
 - name: update clam conf BytecodeSecurity
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: BytecodeSecurity\s+.+
     line: "BytecodeSecurity {{ clamav_conf_bytecodesecurity }}"
 
 - name: update clam conf BytecodeTimeout
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: BytecodeTimeout\s+.+
     line: "BytecodeTimeout {{ clamav_conf_bytecodetimeout }}"
 
 - name: update clam conf OnAccessMaxFileSize
   lineinfile:
-    path: /etc/clamav/clamd.conf
+    path: '{{ clamav_conf_path }}'
     regex: OnAccessMaxFileSize\s+.+
     line: "OnAccessMaxFileSize {{ clamav_conf_onaccessmaxfilesize }}"
 
+# you will need to do some selinux allows here on redhat
+#
 - name: enable clam av scan 
   systemd:
     name: clamav-daemon
+    name: "{% if ansible_os_family == 'RedHat' %}clamd@scan.service{% elif ansible_os_family == 'Debian' %}clamav-daemon{% endif %}"
     state: "{% if clamav_enable_realtime_scanning %}started{% else %}stopped{% endif%}"
     enabled: "{{ clamav_enable_realtime_scanning }}"
 

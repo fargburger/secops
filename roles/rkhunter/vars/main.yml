@@ -8,6 +8,9 @@ rkhunter_default_apt_autogen: "true"
 rkhunter_default_nice: "0"
 rkhunter_default_run_check_on_battery: "false"
 
+rkhunter_sysconfig_mailto: "{{ rkhunter_default_report_email }}"
+rkhunter_sysconfig_diag_scan: "no"
+
 #OVERKILL CONFIG VARS, NOT IMPLEMENTED YET
 # be careful with the lists!
 # be careful with the commented out vars too

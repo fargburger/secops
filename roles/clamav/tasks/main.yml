@@ -1,15 +1,14 @@
 ---
 - name: install clamav
-  apt:
+  package:
     name: clamav
-  when:  ansible_pkg_mgr == 'apt'
+
+- name: allow clam via selinux
+  command: setsebool -P antivirus_can_scan_system  1
+  when: ansible_os_family == 'RedHat'
 
 - name: configure freshclam
   include_tasks: freshclam.yml
-
-- name: boo hiss
-  debug: 
-    msg: whasssup
 
 - name: configure clamscan
   include_tasks: clamav-daemon.yml

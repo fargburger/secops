@@ -15,8 +15,11 @@ with open('/etc/default/grub', 'r') as grub_in_file:
                 options = grub_cmdline_linux_match.groupdict()['options'].split()
                 saved_options = []
                 for option in options:
-                    key, value = option.split('=')
-                    if key not in ['audit', 'audit_backlog_limit']:
+                    if '=' in option:
+                        key, value = option.split('=')
+                        if key not in ['audit', 'audit_backlog_limit']:
+                            saved_options.append(option)
+                    else:
                         saved_options.append(option)
                 saved_options.append('audit=1')
                 saved_options.append('audit_backlog_limit=8192')

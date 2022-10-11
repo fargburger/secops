@@ -1,8 +1,8 @@
 ---
-- name: install nmap via apt
-  apt:
+- name: install nmap #via apt
+  package:
     name: nmap
-  when: ansible_pkg_mgr == 'apt'
+    #  when: ansible_pkg_mgr == 'apt'
 
   #- name: get nmap vulners scripts
   #  git:
@@ -30,6 +30,7 @@
   git:
     repo: https://github.com/scipag/vulscan.git
     dest: /opt/nmap-vulscan
+    force: yes
 
 - name: create symlink to vulscan scripts for nmap
   file:

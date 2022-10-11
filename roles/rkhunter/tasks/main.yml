@@ -1,49 +1,66 @@
 - name: install rkhunter (rootkit hunter)
-  apt:
+  package:
     name: rkhunter
-  when: "ansible_pkg_mgr == 'apt'" 
 
-- name: rkhunter default daily cron run
-  lineinfile:
-    path: /etc/default/rkhunter
-    regex: ^CRON_DAILY_RUN=.+
-    line: CRON_DAILY_RUN={{rkhunter_default_cron_daily_run}}
+- name: set debian rkhunter options 
+  when: "ansible_os_family == 'Debian'"
+  block:
+  - name: rkhunter default daily cron run
+    lineinfile:
+      path: /etc/default/rkhunter
+      regex: ^CRON_DAILY_RUN=.+
+      line: CRON_DAILY_RUN={{rkhunter_default_cron_daily_run}}
 
-- name: rkhunter default db update
-  lineinfile:
-    path: /etc/default/rkhunter
-    regex: ^CRON_DB_UPDATE=.+
-    line: CRON_DB_UPDATE={{rkhunter_default_cron_db_update}}
+  - name: rkhunter default db update
+    lineinfile:
+      path: /etc/default/rkhunter
+      regex: ^CRON_DB_UPDATE=.+
+      line: CRON_DB_UPDATE={{rkhunter_default_cron_db_update}}
 
-- name: rkhunter default db update email
-  lineinfile:
-    path: /etc/default/rkhunter
-    regex: ^DB_UPDATE_EMAIL=.+
-    line: DB_UPDATE_EMAIL={{rkhunter_default_db_update_email}}
+  - name: rkhunter default db update email
+    lineinfile:
+      path: /etc/default/rkhunter
+      regex: ^DB_UPDATE_EMAIL=.+
+      line: DB_UPDATE_EMAIL={{rkhunter_default_db_update_email}}
 
-- name: rkhunter default report email
-  lineinfile:
-    path: /etc/default/rkhunter
-    regex: ^REPORT_EMAIL=.+
-    line: REPORT_EMAIL={{rkhunter_default_report_email}}
+  - name: rkhunter default report email
+    lineinfile:
+      path: /etc/default/rkhunter
+      regex: ^REPORT_EMAIL=.+
+      line: REPORT_EMAIL={{rkhunter_default_report_email}}
 
-- name: rkhunter default apt autogen
-  lineinfile:
-    path: /etc/default/rkhunter
-    regex: ^APT_AUTOGEN=.+
-    line: APT_AUTOGEN={{rkhunter_default_apt_autogen}}
+  - name: rkhunter default apt autogen
+    lineinfile:
+      path: /etc/default/rkhunter
+      regex: ^APT_AUTOGEN=.+
+      line: APT_AUTOGEN={{rkhunter_default_apt_autogen}}
 
-- name: rkhunter default nice
-  lineinfile:
-    path: /etc/default/rkhunter
-    regex: ^NICE=.+
-    line: NICE={{rkhunter_default_nice}}
+  - name: rkhunter default nice
+    lineinfile:
+      path: /etc/default/rkhunter
+      regex: ^NICE=.+
+      line: NICE={{rkhunter_default_nice}}
 
-- name: rkhunter default run check on battery
-  lineinfile:
-    path: /etc/default/rkhunter
-    regex: ^RUN_CHECK_ON_BATTERY=.+
-    line: RUN_CHECK_ON_BATTERY={{rkhunter_default_run_check_on_battery}}
+  - name: rkhunter default run check on battery
+    lineinfile:
+      path: /etc/default/rkhunter
+      regex: ^RUN_CHECK_ON_BATTERY=.+
+      line: RUN_CHECK_ON_BATTERY={{rkhunter_default_run_check_on_battery}}
+ 
+- name: set redhat rkhunter options 
+  when: "ansible_os_family == 'RedHat'"
+  block:
+  - name: rkhunter update mailto
+    lineinfile:
+      path: /etc/sysconfig/rkhunter
+      regex: ^MAIL_TO=.+
+      line: "MAIL_TO={{ rkhunter_sysconfig_mailto }}"
+  - name: rkhunter update diagnostic scan
+    lineinfile:
+      path: /etc/sysconfig/rkhunter
+      regex: ^DIAG_SCAN=.+
+      line: "DIAG_SCAN={{ rkhunter_sysconfig_diag_scan }}"
+  
 
 - name: initialize rkhunter database
   command: rkhunter --propupd

@@ -1,4 +1,8 @@
 ---
-modsecurity_nginx_default_config: "/etc/nginx/sites-available/default"
-modsecurity_nginx_insert_identifier: "^server {$"
+modsecurity_nginx_default_config: "{% if ansible_os_family=='RedHat' %}/etc/nginx/nginx.conf{% elif ansible_os_family=='Debian' %}/etc/nginx/sites-available/default{% endif %}"
+modsecurity_nginx_insert_identifier: "{% if ansible_os_family=='RedHat' %}^    server {${% elif ansible_os_family=='Debian' %}^server {${% endif %}"
+
+modsecurity_nginx_insert_include_identifier: "{% if ansible_os_family=='RedHat' %}include /usr/share/nginx/modules/*.conf;{% elif ansible_os_family=='Debian' %}include /etc/nginx/modules-enabled.*{% endif %}"
+
+
 ...

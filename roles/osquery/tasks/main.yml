@@ -20,6 +20,28 @@
     update_cache: yes
   when: use_public_resources and ansible_pkg_mgr == 'apt'
 
+
+  #- name: install osquery yum repo gpg key
+  #  get_url:
+  #    uri: "{{ osquery_yum_repo_gpg_url }}"
+  #    dest: "{{ osquery_yum_repo_gpg_local_path }}"
+  #  when: use_public_resources and ansible_pkg_mgr == 'dnf'
+
+- name: install osquery yum repo
+  yum_repository:
+    baseurl: "{{ osquery_yum_repo_url }}"
+    description: "osquery RPM repository - $basearch"
+    name: "{{ osquery_yum_repo_name }}"
+    gpgkey: "{{ osquery_yum_repo_gpg_url }}"
+    enabled: true
+    s3_enabled: true
+  when: use_public_resources and ansible_pkg_mgr == 'dnf'
+
+- name: install osquery via dnf
+  dnf:
+    name: osquery
+  when: use_public_resources and ansible_pkg_mgr == 'dnf'
+
   #if not use public resources, download and install (check MD5)
   #for the role:
   #osquery_packs

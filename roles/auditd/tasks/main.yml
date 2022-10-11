@@ -1,10 +1,18 @@
 ---
-- name: install auditd
+- name: install auditd (apt)
   apt:
     name: 
     - auditd
     - audispd-plugins
   when: ansible_pkg_mgr == 'apt'
+
+- name: install auditd (dnf)
+  dnf:
+    name: 
+    - audit
+    - audispd-plugins
+  when: ansible_pkg_mgr == 'dnf'
+
 
 - name: enable audit in grub
   script: 
@@ -14,9 +22,13 @@
   register: replace_grub_option
   changed_when: "'Updated' in replace_grub_option.stdout_lines"
 
-- name: update grub if changed
+- name: update grub if changed (Debian)
   command: update-grub
-  when: replace_grub_option.changed
+  when: replace_grub_option.changed and ansible_os_family == 'Debian'
+
+- name: update grub if changed (RedHat)
+  command: grub2-mkconfig
+  when: replace_grub_option.changed and ansible_os_family == 'RedHat'
 
 - name: set audit option to keep logs
   lineinfile:

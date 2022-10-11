@@ -1,0 +1,14 @@
+---
+splunkforwarder_version: "9.0.1"
+splunkforwarder_deb_arch: "amd64"
+splunkforwarder_rpm_arch: "x86_64"
+splunkforwarder_deb_release: "{{ splunkforwarder_version }}-82c987350fde-linux-2.6-{{ splunkforwarder_deb_arch }}"
+splunkforwarder_rpm_release: "{{ splunkforwarder_version }}-82c987350fde-linux-2.6-{{ splunkforwarder_rpm_arch }}"
+splunkforwarder_deb_package: "splunkforwarder-{{ splunkforwarder_deb_release }}.deb"
+splunkforwarder_deb_download_url: "https://download.splunk.com/products/universalforwarder/releases/{{ splunkforwarder_version }}/linux/{{ splunkforwarder_deb_package }}"
+splunkforwarder_rpm_package: "splunkforwarder-{{ splunkforwarder_rpm_release }}.rpm"
+
+splunkforwarder_rpm_download_url: "https://download.splunk.com/products/universalforwarder/releases/{{ splunkforwarder_version }}/linux/{{ splunkforwarder_rpm_package }}"
+
+
+...

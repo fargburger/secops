@@ -1,0 +1,6 @@
+---
+
+- name: initalize aide database
+  command: /usr/sbin/aide --init
+
+...

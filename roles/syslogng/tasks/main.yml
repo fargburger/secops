@@ -1,0 +1,58 @@
+---
+- name: install syslog-ng (uninstalls rsyslog)
+  apt:
+    name: syslog-ng
+  when: ansible_pkg_mgr == 'apt'
+
+- name: copy syslog-ng config file
+  copy:
+    dest: "{{ syslogng_conf_path }}"
+    content: |
+      {% if syslogng_listen_tcp %}
+      source s_net_tcp { tcp(ip(0.0.0.0) port(514)); };
+      {% endif %}
+      {% if syslogng_listen_udp %}
+      source s_net_udp { udp(ip(0.0.0.0) port(514)); };
+      {% endif %}
+
+      {% if syslogng_default_dest_path %}
+      destination d_default { file('{{ syslogng_default_dest_path }}'); };
+      {% endif %}
+      
+     
+      {% if syslogng_default_dest_siem %}
+      destination d_siem { {{ syslogng_default_dest_siem['proto'] }}("{{ syslogng_default_dest_siem['ip'] }}" port({{ syslogng_default_dest_siem['port'] }}) log_fifo_size({{ syslogng_default_dest_siem['log_fifo_size'] }})); };
+      {% endif %}
+
+      {% if syslogng_default_dest_path %}
+      log { source(s_src); destination(d_default); };
+      {% if syslogng_listen_tcp %}
+      log { source(s_net_tcp); destination(d_default); };
+      {% endif %}
+      {% if syslogng_listen_udp %}
+      log { source(s_net_udp); destination(d_default); };
+      {% endif %}
+      {% endif %}
+
+      {% if syslogng_default_dest_siem %}
+      log { source(s_src); destination(d_siem); };
+      {% if syslogng_listen_tcp %}
+      log { source(s_net_tcp); destination(d_siem); };
+      {% endif %}
+      {% if syslogng_listen_udp %}
+      log { source(s_net_udp); destination(d_siem); };
+      {% endif %}
+      {% endif %}
+
+#TODO add additional log rotate scripts
+
+- name: restart syslog-ng
+  systemd:
+    name: syslog-ng
+    state: restarted
+    enabled: yes
+    daemon_reload: yes
+
+
+
+...

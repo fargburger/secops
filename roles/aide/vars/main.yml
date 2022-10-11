@@ -35,4 +35,5 @@ aide_truncate_details: 'yes'
 aide_filter_updates: 'yes'
 aide_filter_installations: 'yes'
 
+aide_conf: "{% if ansible_os_family == 'RedHat' %}/etc/aide.conf{% elif ansible_os_family == 'Debian' %}/etc/aide/aide.conf{% endif %}"
 ...

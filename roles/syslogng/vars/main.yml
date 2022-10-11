@@ -1,0 +1,15 @@
+---
+syslogng_conf_path: /etc/syslog-ng/conf.d/60-ansible-default.conf
+
+syslogng_listen_tcp: Yes
+syslogng_listen_udp: Yes
+
+syslogng_default_dest_path: /var/log/all.log
+syslogng_default_dest_siem: 
+  ip: 192.168.0.1
+  proto: udp
+  port: 514
+  log_fifo_size: 1000
+
+
+...

@@ -1,7 +1,7 @@
 ---
 rsyslog_conf_path: /etc/rsyslog.d/60-ansible-default.conf
-rsyslog_default_dest_path: -/var/log/all.log
-rsyslog_default_dest_siem: No
+rsyslog_default_dest_path: /var/log/all.log #- is defaulted in template
+rsyslog_default_dest_siem: No #use an @ for tcp
 rsyslog_destinations:
 - facility: '*'
   priority: '*'
@@ -10,13 +10,15 @@ rsyslog_destinations:
 
 rsyslog_actionfiledefaulttemplate: 'RSYSLOG_TraditionalFileFormat'
 rsyslog_repeatedmsgreduction: 'on'
-rsyslog_fileowner: 'syslog'
-rsyslog_filegroup: 'adm'
+rsyslog_fileowner: "{% if ansible_os_family == 'RedHat' %}root{% elif ansible_os_family == 'Debian' %}syslog{% endif %}"
+rsyslog_filegroup: "{% if ansible_os_family == 'RedHat' %}root{% elif ansible_os_family == 'Debian' %}adm{% endif %}"
 rsyslog_filecreatemode: '0640'
 rsyslog_dircreatemode: '0755'
 rsyslog_umask: '0022'
 rsyslog_privdroptouser: 'syslog'
 rsyslog_privdroptogroup: 'syslog'
+
+rsyslog_service_name: "{% if ansible_os_family == 'RedHat' %}rsyslog{% elif ansible_os_family == 'Debian' %}syslog{% endif %}"
 
 
 ...

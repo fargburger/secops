@@ -1,8 +1,7 @@
 ---
 - name: install fail2ban with apt
-  apt:
+  package:
     name: fail2ban
-  when: "ansible_pkg_mgr == 'apt'" 
 
 - name: configure fail2ban ini file
   include_role:

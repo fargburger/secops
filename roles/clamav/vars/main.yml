@@ -1,9 +1,11 @@
 ---
+clamav_freshclam_conf_path: "{% if ansible_os_family == 'RedHat' %}/etc/freshclam.conf{% elif ansible_os_family == 'Debian' %}/etc/clamav/freshclam.conf{% endif %}"
 
-clamav_freshclam_databaseowner: "clamav"
+clamav_freshclam_databaseowner: "{% if ansible_os_family == 'RedHat' %}clamupdate{% elif ansible_os_family == 'Debian' %}clamav{% endif %}"
+
 clamav_freshclam_updatelogfile: "/var/log/clamav/freshclam.log"
 clamav_freshclam_logverbose: "false"
-clamav_freshclam_logsyslog: "false"
+clamav_freshclam_logsyslog: "yes"
 clamav_freshclam_logfacility: "LOG_LOCAL6"
 clamav_freshclam_logfilemaxsize: "0"
 clamav_freshclam_logrotate: "true"
@@ -29,11 +31,14 @@ clamav_freshclam_httpproxyport: ""
 #NOTE, this uses a lot of RAM
 clamav_enable_realtime_scanning: yes
 
-clamav_conf_localsocket: "/var/run/clamav/clamd.ctl"
+clamav_conf_path: "{% if ansible_os_family == 'RedHat' %}/etc/clamd.d/scan.conf{% elif ansible_os_family == 'Debian' %}/etc/clamav/clamd.conf{% endif %}"
+
+clamav_conf_localsocket: "{% if ansible_os_family == 'RedHat' %}/var/run/clamd.scan/clamd.ctl{% elif ansible_os_family == 'Debian' %}/var/run/clamav/clamd.ctl{% endif %}"
+
 clamav_conf_fixstalesocket: "true"
-clamav_conf_localsocketgroup: "clamav"
+clamav_conf_localsocketgroup: "{% if ansible_os_family == 'RedHat' %}clamscan{% elif ansible_os_family == 'Debian' %}clamav{% endif %}"
 clamav_conf_localsocketmode: "666"
-clamav_conf_user: "clamav"
+clamav_conf_user: "{% if ansible_os_family == 'RedHat' %}clamscan{% elif ansible_os_family == 'Debian' %}clamav{% endif %}"
 clamav_conf_scanmail: "true"
 clamav_conf_scanarchive: "true"
 clamav_conf_archiveblockencrypted: "false"
