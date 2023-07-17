@@ -2,6 +2,10 @@ name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
 jobs:
+  Taste-The-Rainbow:
+    runs-on: [self-hosted, linux, x86]
+    steps:
+      - run: echo "$(hostname) is the best thing to run the builder on"
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
